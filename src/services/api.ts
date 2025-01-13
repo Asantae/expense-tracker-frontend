@@ -11,3 +11,11 @@ export const fetchCategories = async () => {
         throw error;
     }
 };
+
+export const fetchExpenses = async () => {
+    const response = await fetch(`${API_BASE_URL}/expense`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch expenses');
+    }
+    return response.json();
+};
