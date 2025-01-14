@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, Typography } from '@mui/material';
 import { loadCategories } from '../actions/categoryActions';
-import { showErrorToast } from '../utils/toastUtil';  // Importing the utility
 
 interface Category {
   id: number;
