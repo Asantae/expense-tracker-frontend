@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
                         component={Link}
                         to="/"
                         color="inherit"
-                        sx={{ textTransform: 'none' }}
+                        sx={{ textTransform: 'none', mx: 1 }}
                     >
                         Categories
                     </Button>
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
                         component={Link}
                         to="/expenses"
                         color="inherit"
-                        sx={{ textTransform: 'none' }}
+                        sx={{ textTransform: 'none', mx: 1 }}
                     >
                         Expenses
                     </Button>
