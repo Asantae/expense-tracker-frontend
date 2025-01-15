@@ -1,10 +1,7 @@
 import axios from 'axios';
+import { getToken } from '../utils/tokenUtil';
 
-const API_BASE_URL = 'http://localhost:5221/api/expense';
-
-const getToken = () => {
-    return localStorage.getItem('jwtToken');
-};
+export const API_BASE_URL = 'http://localhost:5221/api';
 
 export const logoutUser = () => {
     localStorage.removeItem('jwtToken');

@@ -1,53 +1,25 @@
+import { toast } from 'react-toastify';
 import axios from 'axios';
-import { AppThunk } from '../store';
+import { API_BASE_URL } from '../services/api';
+import { ThunkAction } from 'redux-thunk';
+import { Action } from 'redux';
+import { RootState } from '../store/store';
 
-const API_BASE_URL = 'http://localhost:5221/api/user';
-
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-
-interface LoginRequestAction {
-  type: typeof LOGIN_REQUEST;
-}
-
-interface LoginSuccessAction {
-  type: typeof LOGIN_SUCCESS;
-  payload: { token: string };
-}
-
-interface LoginFailureAction {
-  type: typeof LOGIN_FAILURE;
-  payload: string;
-}
-
-export type AuthActionTypes = LoginRequestAction | LoginSuccessAction | LoginFailureAction;
-
-const loginRequest = (): LoginRequestAction => ({
-  type: LOGIN_REQUEST
-});
-
-const loginSuccess = (token: string): LoginSuccessAction => ({
-  type: LOGIN_SUCCESS,
-  payload: { token }
-});
-
-const loginFailure = (error: string): LoginFailureAction => ({
-  type: LOGIN_FAILURE,
-  payload: error
-});
-
-export const loginUser = (username: string, password: string): AppThunk => async dispatch => {
-  dispatch(loginRequest());
-
+export const loginAction = (username: string, password: string): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, { username, password });
+    const response = await axios.post(`${API_BASE_URL}/User/login`, { username, password });
     const { token } = response.data;
 
-    localStorage.setItem('authToken', token); // Store token in localStorage
+    localStorage.setItem('token', token);
 
-    dispatch(loginSuccess(token));
-  } catch (error: any) {
-    dispatch(loginFailure(error.message || 'Login failed'));
+    dispatch({
+      type: 'LOGIN_SUCCESS',
+      payload: token,
+    });
+
+    toast.success('Login successful');
+  } catch (error) {
+    toast.error('Login failed: Invalid username or password');
+    console.error('Error during login:', error);
   }
 };

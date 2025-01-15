@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
                 <Box>
                     <Button
                         component={Link}
-                        to="/"
+                        to="/categories"
                         color="inherit"
                         sx={{ textTransform: 'none', mx: 1 }}
                     >
