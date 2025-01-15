@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Dashboard from './Dashboard';
 import LoginForm from './LoginForm';
+import NotFound from '../pages/NotFound';
 
 const AppRoutes: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -60,6 +61,7 @@ const AppRoutes: React.FC = () => {
           />
         }
       />
+      <Route path="*" element={<NotFound />} /> 
     </Routes>
   );
 };

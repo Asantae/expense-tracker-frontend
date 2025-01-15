@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../actions/authActions';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import { Button, TextField, Container, Typography, Card } from '@mui/material';
 import { AppDispatch } from '../store/store';
 
 const LoginForm = () => {
@@ -16,7 +16,7 @@ const LoginForm = () => {
     };
 
     return (
-        <Container maxWidth="xs">
+        <Card>
             <Typography variant="h5" gutterBottom>
             Login
             </Typography>
@@ -42,7 +42,7 @@ const LoginForm = () => {
                     Login
                 </Button>
             </form>
-        </Container>
+        </Card>
     );
 };
 
