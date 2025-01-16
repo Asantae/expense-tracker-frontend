@@ -1,12 +1,10 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 const LoginPage: React.FC = () => {
   return (
-    <Box
-    >
-      <Typography>Login</Typography>
+    <Box>
       <LoginForm />
     </Box>
   );

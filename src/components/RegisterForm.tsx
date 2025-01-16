@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../actions/loginAction';
 import { Button, TextField, Container, Typography, Card } from '@mui/material';
 import { AppDispatch } from '../store/store';
+import { register } from '../actions/registerAction';
 
-const LoginForm = () => {
+const RegisterForm = () => {
     const dispatch: AppDispatch = useDispatch();
 
+    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleRegistration = async (e: React.FormEvent) => {
         e.preventDefault();
-        await dispatch(login(username, password));
+        await dispatch(register(email, username, password));
     };
 
     return (
         <Card>
-            <Typography variant="h4" gutterBottom>
-                Login
+            <Typography variant="h5" gutterBottom>
+            Register
             </Typography>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleRegistration}>
+            <TextField
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
                 <TextField
                     label="Username"
                     variant="outlined"
@@ -39,11 +48,11 @@ const LoginForm = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button type="submit" variant="contained" fullWidth color="primary">
-                    Login
+                    Register
                 </Button>
             </form>
         </Card>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

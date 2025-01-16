@@ -1,18 +1,52 @@
 import axios from 'axios';
 import { getToken } from '../utils/tokenUtil';
 
-export const API_BASE_URL = 'http://localhost:5221/api';
+const API_BASE_URL = 'http://localhost:5221/api';
 
 export const logoutUser = () => {
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('token');
 };
 
 export const isUserLoggedIn = () => {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('token');
     return token !== null;
 };
 
-export const fetchCategories = async () => {
+export const loginUser = async (username: string, password: string) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/User/login`, { username, password });
+        const token = response.data.token;
+
+        localStorage.setItem('token', token);
+
+        return token;
+    } catch (error) {
+
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+export const registerUser = async (email: string, username: string, password: string) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/User/register`, { 
+            email, 
+            username, 
+            password 
+        });
+        const token = response.data.token;
+
+        localStorage.setItem('token', token);
+
+        return token;
+    } catch (error) {
+
+        console.error('Error registering:', error);
+        throw error;
+    }
+};
+
+export const getCategories = async () => {
         const token = getToken();
 
         if (!token) {
@@ -20,7 +54,7 @@ export const fetchCategories = async () => {
         }
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/categories`, {
+        const response = await axios.get(`${API_BASE_URL}/Expense/categories`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -32,35 +66,44 @@ export const fetchCategories = async () => {
     }
 };
 
-export const fetchExpenses = async () => {
+export const getExpenses = async () => {
     const token = getToken();
 
     if (!token) {
         throw new Error('User is not logged in.');
     }
 
-    const response = await fetch(`${API_BASE_URL}/expense`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch expenses');
+    try {
+        const response = await axios.get(`${API_BASE_URL}/Expense/expense`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+        throw error;
     }
-    return response.json();
 };
 
-export const loginUser = async (username: string, password: string) => {
-    try {
-        const response = await axios.post(`${API_BASE_URL}/login`, { username, password });
-        const token = response.data.token;
+export const addExpense = async (amount: number, description: string, categoryId: string, frequency: number) => {
+    const token = getToken();
 
-        localStorage.setItem('jwtToken', token);
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/Expense/addExpense`, {
+            amount,
+            description,
+            categoryId,
+            frequency
+        });
 
         return response.data;
     } catch (error) {
-        console.error('Error logging in:', error);
+        console.error('Error adding expense:', error);
         throw error;
     }
 };

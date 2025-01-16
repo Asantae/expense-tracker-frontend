@@ -1,12 +1,12 @@
-import { fetchCategories } from '../services/api';
-import { toast } from 'react-toastify';
+import { getCategories } from '../services/api';
+import { showErrorToast } from '../utils/toastUtil';
 
 export const loadCategories = async () => {
     try {
-        const categories = await fetchCategories();
+        const categories = await getCategories();
         return categories;
     } catch (error) {
-        toast.error('Failed to load categories.');
-        throw error;
+        showErrorToast('Failed to load categories.');
+        console.error(error)
     }
 };

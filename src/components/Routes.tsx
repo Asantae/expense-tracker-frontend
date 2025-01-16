@@ -6,8 +6,9 @@ import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Dashboard from './Dashboard';
-import LoginForm from './LoginForm';
 import NotFound from '../pages/NotFound';
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
 
 const AppRoutes: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -15,6 +16,18 @@ const AppRoutes: React.FC = () => {
   const isAuthenticated = Boolean(token);
   return (
     <Routes>
+      <Route 
+        path="/login" 
+        element={
+          <LoginPage/>
+        } 
+        />
+        <Route 
+          path="/register" 
+          element={
+            <RegisterPage/>
+          } 
+          />
       <Route 
         path="/"
         element={
@@ -25,12 +38,6 @@ const AppRoutes: React.FC = () => {
           />
         } 
       />
-      <Route 
-        path="/login" 
-        element={
-          <LoginForm/>
-        } 
-        />
       <Route
           path="/dashboard"
           element={

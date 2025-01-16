@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { loadExpenses } from '../actions/expenseActions';
 import { Box, List, ListItem, Typography } from '@mui/material';
 
-interface Expense {
+interface IExpense {
     id: number;
     amount: number;
     description: string;
@@ -10,15 +10,12 @@ interface Expense {
 }
 
 const ExpensePage: React.FC = () => {
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [expenses, setExpenses] = useState<IExpense[]>([]);
 
     useEffect(() => {
         const getExpenses = async () => {
-            try {
-                const expensesData = await loadExpenses();
-                setExpenses(expensesData);
-            } catch (err) {
-            }
+            const expensesData = await loadExpenses();
+            setExpenses(expensesData);
         };
         getExpenses();
     }, []);
@@ -29,7 +26,7 @@ const ExpensePage: React.FC = () => {
                 Expenses
             </Typography>
             <List>
-                {expenses.map((expense) => (
+                {expenses && expenses.map((expense) => (
                     <ListItem key={expense.id}>
                         <Typography>{`${expense.description} - $${expense.amount}`}</Typography>
                     </ListItem>

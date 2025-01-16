@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { List, ListItem, Typography } from '@mui/material';
+import { Box, List, ListItem, Typography } from '@mui/material';
 import { loadCategories } from '../actions/categoryActions';
 
-interface Category {
-  id: number;
+interface ICategory {
+  id: string;
   name: string;
 }
 
 const CategoryPage: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
     const getCategories = async () => {
-      try {
-        const categoriesData = await loadCategories();
-        setCategories(categoriesData);
-      } catch (err) {
-      }
+      const categoriesData = await loadCategories();
+      setCategories(categoriesData);
     };
     getCategories();
   }, []);
 
   return (
-    <div>
-      <Typography variant="h5" gutterBottom>
+    <Box>
+      <Typography variant="h4" gutterBottom>
         Categories
       </Typography>
       <List>
-        {categories.map((category) => (
+        {categories && categories.map((category) => (
           <ListItem key={category.id}>{category.name}</ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 };
 
