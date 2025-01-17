@@ -9,11 +9,13 @@ import Dashboard from './Dashboard';
 import NotFound from '../pages/NotFound';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import UserDashboard from './UserDashboard';
+import { isTokenValid } from '../utils/tokenUtil';
 
 const AppRoutes: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
 
-  const isAuthenticated = Boolean(token);
+  const isAuthenticated = isTokenValid(token);
   return (
     <Routes>
       <Route 
@@ -21,41 +23,29 @@ const AppRoutes: React.FC = () => {
         element={
           <LoginPage/>
         } 
-        />
-        <Route 
-          path="/register" 
-          element={
-            <RegisterPage/>
-          } 
-          />
+      />
       <Route 
-        path="/"
+        path="/register" 
         element={
-          <ProtectedRoute
-            component={Dashboard}
-            isAuthenticated={isAuthenticated}
-            redirectTo="/login"
-          />
+          <RegisterPage/>
         } 
       />
       <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute
-              component={Dashboard}
-              isAuthenticated={isAuthenticated}
-              redirectTo="/login"
-            />
-          }
-        />
+        path="/dashboard/user/:userId"
+        element={
+          <ProtectedRoute
+            component={UserDashboard}
+            isAuthenticated={isAuthenticated}
+          />
+        }
+      />
       <Route
           path="/categories"
           element={
-            <ProtectedRoute
-              component={CategoryPage}
-              isAuthenticated={isAuthenticated}
-              redirectTo="/login"
-            />
+          <ProtectedRoute
+            component={CategoryPage}
+            isAuthenticated={isAuthenticated}
+          />
         }
       />
       <Route
@@ -64,11 +54,12 @@ const AppRoutes: React.FC = () => {
           <ProtectedRoute
             component={ExpensePage}
             isAuthenticated={isAuthenticated}
-            redirectTo="/login"
           />
         }
       />
       <Route path="*" element={<NotFound />} /> 
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 };

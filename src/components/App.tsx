@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import AppRoutes from './Routes';
 import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
@@ -20,4 +20,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

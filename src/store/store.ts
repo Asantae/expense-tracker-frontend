@@ -1,4 +1,4 @@
-import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
+import { Action, combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from '../reducers/authReducer';
 import { thunk, ThunkDispatch } from 'redux-thunk';
 import userReducer from '../store/userSlice';
@@ -14,6 +14,6 @@ const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
+export type AppDispatch = ThunkDispatch<RootState, unknown, Action<string>>;
 
 export default store;

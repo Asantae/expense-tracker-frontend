@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, TextField, Container, Typography, Card } from '@mui/material';
+import { Button, TextField, Typography, Card } from '@mui/material';
 import { AppDispatch } from '../store/store';
 import { register } from '../actions/registerAction';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -13,16 +15,16 @@ const RegisterForm = () => {
 
     const handleRegistration = async (e: React.FormEvent) => {
         e.preventDefault();
-        await dispatch(register(email, username, password));
+        await dispatch(register(email, username, password, navigate));
     };
 
     return (
         <Card>
-            <Typography variant="h5" gutterBottom>
-            Register
+            <Typography variant="h4" gutterBottom>
+                Register
             </Typography>
             <form onSubmit={handleRegistration}>
-            <TextField
+                <TextField
                     label="Email"
                     variant="outlined"
                     fullWidth

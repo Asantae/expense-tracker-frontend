@@ -1,23 +1,26 @@
 import axios from 'axios';
-import { getToken } from '../utils/tokenUtil';
+import { getToken, removeToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
 
-const API_BASE_URL = 'http://localhost:5221/api';
+export const API_BASE_URL = 'http://localhost:5221/api';
 
 export const logoutUser = () => {
-    localStorage.removeItem('token');
+    removeToken();
 };
 
 export const isUserLoggedIn = () => {
     const token = localStorage.getItem('token');
-    return token !== null;
+    const refreshToken = localStorage.getItem('refreshToken')
+    return token && refreshToken !== null;
 };
 
 export const loginUser = async (username: string, password: string) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/User/login`, { username, password });
         const token = response.data.token;
+        const refreshToken = response.data.refreshToken;
 
-        localStorage.setItem('token', token);
+        setAccessToken(token);
+        setRefreshToken(refreshToken);
 
         return token;
     } catch (error) {
@@ -35,12 +38,13 @@ export const registerUser = async (email: string, username: string, password: st
             password 
         });
         const token = response.data.token;
+        const refreshToken = response.data.refreshToken;
 
-        localStorage.setItem('token', token);
+        setAccessToken(token);
+        setRefreshToken(refreshToken);
 
         return token;
     } catch (error) {
-
         console.error('Error registering:', error);
         throw error;
     }

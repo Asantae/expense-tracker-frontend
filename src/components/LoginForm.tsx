@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../actions/loginAction';
-import { Button, TextField, Container, Typography, Card } from '@mui/material';
+import { Button, TextField, Typography, Card } from '@mui/material';
 import { AppDispatch } from '../store/store';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        await dispatch(login(username, password));
+        await dispatch(login(username, password, navigate));
     };
 
     return (
