@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
+import { getToken, getUserFromToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
 
 export const API_BASE_URL = 'http://localhost:5221/api';
 
@@ -59,19 +59,25 @@ export const registerUser = async (email: string, username: string, password: st
 };
 
 export const getCategories = async () => {
-        const token = getToken();
+    const token = getToken();
 
-        if (!token) {
-            throw new Error('User is not logged in.');
-        }
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    const userId = getUserFromToken(token).sub;
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/Expense/categories`, {
+        const response = await axios.get(`${API_BASE_URL}/Expense/getCategories`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            params: {
+                userId,
+            }
         });
-        return response.data;
+        
+        return response.data.categories;
     } catch (error) {
         console.error('Error fetching categories:', error);
         throw error;
@@ -85,13 +91,18 @@ export const getExpenses = async () => {
         throw new Error('User is not logged in.');
     }
 
+    const userId = getUserFromToken(token).sub;
+
     try {
-        const response = await axios.get(`${API_BASE_URL}/Expense/expense`, {
+        const response = await axios.get(`${API_BASE_URL}/Expense/getExpenses`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            params: {
+                userId,
+            },
         });
-        return response.data;
+        return response.data.expenses;
     } catch (error) {
         console.error('Error fetching expenses:', error);
         throw error;

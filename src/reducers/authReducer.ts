@@ -26,12 +26,14 @@ const authReducer = (state = initialState, action: any) => {
       };
     case 'LOGOUT_SUCCESS':
       removeTokens();
+
       return { 
         ...state, 
         isLoggedIn: false,
       };
     case 'REFRESH_TOKEN_SUCCESS':
       setRefreshToken(action.payload);
+
       return {
         ...state,
       };

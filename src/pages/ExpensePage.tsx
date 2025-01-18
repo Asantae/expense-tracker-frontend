@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { loadExpenses } from '../actions/expenseActions';
 import { Box, List, ListItem, Typography } from '@mui/material';
-
-interface IExpense {
-    id: number;
-    amount: number;
-    description: string;
-    date: string;
-}
+import { AppDispatch } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { Expense } from '../../interfaces/Expenses';
 
 const ExpensePage: React.FC = () => {
-    const [expenses, setExpenses] = useState<IExpense[]>([]);
+    const dispatch: AppDispatch = useDispatch();
+    const [expenses, setExpenses] = useState<Expense[]>([]);
 
     useEffect(() => {
         const getExpenses = async () => {
-            const expensesData = await loadExpenses();
+            const expensesData = await loadExpenses(dispatch);
             setExpenses(expensesData);
         };
         getExpenses();
-    }, []);
+    }, [dispatch]);
 
     return (
         <Box>
