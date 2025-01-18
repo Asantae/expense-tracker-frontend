@@ -19,8 +19,6 @@ export const register = (email: string, username: string, password: string, navi
     
     dispatch(setUser({
         userId: user.sub, 
-        username: user.unique_name, 
-        email: user.email
       })
     );
 

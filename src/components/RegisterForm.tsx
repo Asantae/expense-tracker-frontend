@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, TextField, Typography, Card } from '@mui/material';
+import { Button, TextField, Typography, Card, Link } from '@mui/material';
 import { AppDispatch } from '../store/store';
 import { register } from '../actions/registerAction';
 import { useNavigate } from 'react-router-dom';
@@ -53,6 +53,11 @@ const RegisterForm = () => {
                     Register
                 </Button>
             </form>
+            <Link href="/login" underline="hover">
+                <Typography>
+                    Already Have An Account?
+                </Typography>
+            </Link>
         </Card>
     );
 };

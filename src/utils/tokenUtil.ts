@@ -22,7 +22,7 @@ export const getUserFromToken = (token: string): DecodedToken => {
     return decodedToken;
 };
 
-export const removeToken = () => {
+export const removeTokens = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
 };

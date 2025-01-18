@@ -5,12 +5,12 @@ import { RootState } from '../store/store';
 import { Action } from 'redux';
 import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
 
-export const register = (amount: number, description: string, categoryId: string, frequency: number): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
+export const addExpenseAction = (amount: number, description: string, categoryId: string, frequency: number): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
     const response = await addExpense(amount, description, categoryId, frequency);
 
     dispatch({
-      type: 'REGISTER_SUCCESS',
+      type: 'ADD_EXPENSE_SUCCESS',
       payload: response,
     });
 

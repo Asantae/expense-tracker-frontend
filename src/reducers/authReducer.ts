@@ -1,18 +1,39 @@
-const initialState = {
-  token: localStorage.getItem('token') || null,
+import { removeTokens, setAccessToken, setRefreshToken } from "../utils/tokenUtil";
+
+
+interface AuthState {
+  isLoggedIn: boolean;
+  isGuest: boolean;
+  error: string | null;
+}
+
+const initialState: AuthState = {
+    isLoggedIn: false,
+    isGuest: false,
+    error: null,
 };
-  
+
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case 'REGISTER_SUCCESS':
     case 'LOGIN_SUCCESS':
+      setAccessToken(action.payload);
+      
       return { 
         ...state, 
-        token: action.payload 
+        isLoggedIn: true,
+        isGuest: false
       };
-    case 'LOGOUT':
+    case 'LOGOUT_SUCCESS':
+      removeTokens();
       return { 
         ...state, 
-        token: null 
+        isLoggedIn: false,
+      };
+    case 'REFRESH_TOKEN_SUCCESS':
+      setRefreshToken(action.payload);
+      return {
+        ...state,
       };
     default:
       return state;

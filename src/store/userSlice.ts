@@ -4,27 +4,27 @@ interface UserState {
   userId: string | null;
   username: string | null;
   email: string | null;
+  listExpenses: string[] | [];
+  listAdditionalCategories: string[] | []
 }
 
 const initialState: UserState = {
     userId: null,
     username: null,
-    email: null
+    email: null,
+    listExpenses: [],
+    listAdditionalCategories: [],
 };
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<{ userId: string; username: string, email: string }>) => {
+        setUser: (state, action: PayloadAction<{ userId: string; }>) => {
             state.userId = action.payload.userId;
-            state.username = action.payload.username;
-            state.email = action.payload.email
         },
         clearUser: (state) => {
             state.userId = null;
-            state.username = null;
-            state.email = null;
         },
     },
 });

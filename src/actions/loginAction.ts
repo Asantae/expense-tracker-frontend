@@ -18,10 +18,8 @@ export const login = (username: string, password: string, navigate: any): ThunkA
     });
 
     dispatch(setUser({
-      userId: user.sub, 
-      username: user.unique_name, 
-      email: user.email})
-    );
+      userId: user.sub
+    }));
 
     navigate(`/dashboard/user/${user.sub}`)
 

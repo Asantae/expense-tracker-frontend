@@ -1,11 +1,7 @@
 import axios from 'axios';
-import { getToken, removeToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
+import { getToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
 
 export const API_BASE_URL = 'http://localhost:5221/api';
-
-export const logoutUser = () => {
-    removeToken();
-};
 
 export const isUserLoggedIn = () => {
     const token = localStorage.getItem('token');
@@ -26,6 +22,18 @@ export const loginUser = async (username: string, password: string) => {
     } catch (error) {
 
         console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+export const logoutUser = async (refreshToken: string) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/User/logout`, { refreshToken });
+
+        return response;
+    } catch (error) {
+
+        console.error('Error logging out:', error);
         throw error;
     }
 };

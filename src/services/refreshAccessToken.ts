@@ -7,8 +7,6 @@ const refreshAccessToken = async (): Promise<string | null> => {
   try {
     const token = getToken();
     const refreshToken = getRefreshToken();
-    console.log("Access Token:", token);
-    console.log("Refresh Token:", refreshToken);
 
     if (!refreshToken) {
       console.error('No refresh token available');

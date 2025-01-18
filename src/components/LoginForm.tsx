@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../actions/loginAction';
-import { Button, TextField, Typography, Card } from '@mui/material';
+import { Button, TextField, Typography, Card, Link } from '@mui/material';
 import { AppDispatch } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,6 +44,11 @@ const LoginForm = () => {
                     Login
                 </Button>
             </form>
+            <Link href="/register" underline="hover" paddingX={5} >
+                <Typography>
+                    Don't Have An Account?
+                </Typography>
+            </Link>
         </Card>
     );
 };
