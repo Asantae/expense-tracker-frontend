@@ -14,18 +14,18 @@ export const logout = (navigate: any): ThunkAction<Promise<void>, RootState, unk
         showErrorToast('No refresh token found. Please log in again.');
         return;
     }
-    await logoutUser(refreshToken);
+    await logoutUser();
 
     persistor.purge();
+
+    dispatch(clearUser());
 
     dispatch({
       type: 'LOGOUT_SUCCESS',
       payload: refreshToken,
     });
 
-    dispatch(clearUser());
-
-    navigate(`/dashboard`)
+    navigate(`/login`)
 
     showSuccessToast('Logout successful!');
   } catch (error) {

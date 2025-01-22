@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CategoryPage from '../pages/CategoryPage';
-import ExpensePage from '../pages/ExpensePage';
+import ExpensePage from '../pages/Expenses';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './Dashboard';
 import NotFound from '../pages/NotFound';

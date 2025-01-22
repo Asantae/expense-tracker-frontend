@@ -1,7 +1,6 @@
-import axios from 'axios';
 import store from '../store/store';
-import { API_BASE_URL } from './api';
 import { getRefreshToken, getToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
+import httpClient from '../utils/httpClient';
 
 const refreshAccessToken = async (): Promise<string | null> => {
   try {
@@ -13,11 +12,10 @@ const refreshAccessToken = async (): Promise<string | null> => {
       return null;
     }
 
-    const response = await axios.post(`${API_BASE_URL}/Auth/refresh`, 
-      { 
-        Token: token,
-        RefreshToken: refreshToken,
-      }, 
+    const response = await httpClient.post(`/Auth/refresh`, {  Params: { 
+      Token: token, 
+      RefreshToken: refreshToken 
+    }}, 
       { withCredentials: true }
     );
 

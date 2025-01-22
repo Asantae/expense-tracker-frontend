@@ -1,4 +1,4 @@
-import { Expense } from '../../interfaces/Expenses';
+import { Expense } from '../../interfaces/Expense';
 import { getExpenses } from '../services/api';
 import { setExpenses } from '../store/userSlice';
 import { showErrorToast } from '../utils/toastUtil';
@@ -11,7 +11,7 @@ export const loadExpenses = async (dispatch: any) => {
 
         return expensesList;
     } catch (error) {
-        showErrorToast('Failed to load expenses.');
+        showErrorToast('Failed to load expenses');
         return [];
     }
 };

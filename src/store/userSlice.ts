@@ -1,29 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Category } from '../../interfaces/Category';
-import { Expense } from '../../interfaces/Expenses';
+import { Expense } from '../../interfaces/Expense';
+import { User } from '../../interfaces/User';
 
 interface UserState {
   userId: string | null;
   username: string | null;
   email: string | null;
-  expensesList: Expense[];
-  categoriesList: Category[];
+  expensesList: Expense[] | null;
+  categoriesList: Category[] | null;
 }
 
 const initialState: UserState = {
     userId: null,
     username: null,
     email: null,
-    expensesList: [],
-    categoriesList: [],
+    expensesList: null,
+    categoriesList: null,
 };
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<{ userId: string; }>) => {
-            state.userId = action.payload.userId;
+        setUser: (state, action: PayloadAction< User >) => {
+            state.userId = action.payload.id;
+            state.username = action.payload.username;
+            state.email = action.payload.email;
         },
         clearUser: (state) => {
             state.userId = null;

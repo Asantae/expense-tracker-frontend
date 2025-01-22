@@ -27,10 +27,6 @@ export const removeTokens = () => {
     localStorage.removeItem('refreshToken');
 };
 
-export const checkTokenForMatch = (token: string) => {
-    const user = getUserFromToken(token);
-};
-
 export const isTokenValid = (token: string): boolean => {
     try {
       const decoded: TokenPayload = jwtDecode(token);

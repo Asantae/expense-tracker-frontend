@@ -4,24 +4,20 @@ import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store/store';
 import { Action } from 'redux';
 import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
-import { getUserFromToken } from '../utils/tokenUtil';
 import { setUser } from '../store/userSlice';
 
 export const login = (username: string, password: string, navigate: any): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
-    const token = await loginUser(username, password);
-    const user = getUserFromToken(token);
+    const { token, user } = await loginUser(username, password);
 
     dispatch({
       type: 'LOGIN_SUCCESS',
       payload: token,
     });
 
-    dispatch(setUser({
-      userId: user.sub
-    }));
+    dispatch(setUser( user ));
 
-    navigate(`/dashboard/user/${user.sub}`)
+    navigate(`/dashboard/user/${user.id}`)
 
     showSuccessToast('Login successful!');
   } catch (error) {

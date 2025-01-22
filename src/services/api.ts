@@ -1,38 +1,66 @@
-import axios from 'axios';
 import { getToken, getUserFromToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
+import httpClient from '../utils/httpClient';
 
-export const API_BASE_URL = 'http://localhost:5221/api';
+export const getUser = async () => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    const userId = getUserFromToken(token).sub;
+
+    try {
+        const response = await httpClient.get(`/User/getUser`, {
+            params: { userId },
+        });
+        
+        return response.data.user;
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error;
+    }
+};
 
 export const isUserLoggedIn = () => {
     const token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken')
+    const refreshToken = localStorage.getItem('refreshToken');
     return token && refreshToken !== null;
 };
 
 export const loginUser = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/User/login`, { username, password });
+        const response = await httpClient.post(`/User/login`, { 
+            username, 
+            password
+        });
         const token = response.data.token;
         const refreshToken = response.data.refreshToken;
-
+        const user = response.data.user;
+        
         setAccessToken(token);
         setRefreshToken(refreshToken);
 
-        return token;
+        return { token, user };
     } catch (error) {
-
         console.error('Error logging in:', error);
         throw error;
     }
 };
 
-export const logoutUser = async (refreshToken: string) => {
+export const logoutUser = async () => {
+    const refreshToken = getToken(); 
+    if (!refreshToken) {
+        throw new Error('No refresh token available');
+    }
+
     try {
-        const response = await axios.post(`${API_BASE_URL}/User/logout`, { refreshToken });
+        const response = await httpClient.post(`/User/logout`, { 
+            refreshToken
+        });
 
         return response;
     } catch (error) {
-
         console.error('Error logging out:', error);
         throw error;
     }
@@ -40,18 +68,19 @@ export const logoutUser = async (refreshToken: string) => {
 
 export const registerUser = async (email: string, username: string, password: string) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/User/register`, { 
+        const response = await httpClient.post(`/User/register`, {
             email, 
             username, 
-            password 
+            password
         });
         const token = response.data.token;
         const refreshToken = response.data.refreshToken;
-
+        const user = response.data.user;
+        
         setAccessToken(token);
         setRefreshToken(refreshToken);
 
-        return token;
+        return { token, user };
     } catch (error) {
         console.error('Error registering:', error);
         throw error;
@@ -68,16 +97,36 @@ export const getCategories = async () => {
     const userId = getUserFromToken(token).sub;
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/Expense/getCategories`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await httpClient.get(`/Expense/getCategories`, {
             params: {
                 userId,
             }
         });
         
         return response.data.categories;
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        throw error;
+    }
+};
+
+export const getFrequencies = async () => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    const userId = getUserFromToken(token).sub;
+
+    try {
+        const response = await httpClient.get(`/Expense/getFrequencies`, {
+            params: {
+                userId,
+            }
+        });
+        
+        return response.data.frequencies;
     } catch (error) {
         console.error('Error fetching categories:', error);
         throw error;
@@ -94,10 +143,7 @@ export const getExpenses = async () => {
     const userId = getUserFromToken(token).sub;
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/Expense/getExpenses`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await httpClient.get(`/Expense/getExpenses`, {
             params: {
                 userId,
             },
@@ -117,7 +163,7 @@ export const addExpense = async (amount: number, description: string, categoryId
     }
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/Expense/addExpense`, {
+        const response = await httpClient.post(`/Expense/addExpense`, {
             amount,
             description,
             categoryId,

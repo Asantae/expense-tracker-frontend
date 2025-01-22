@@ -2,14 +2,14 @@ import { removeTokens, setAccessToken, setRefreshToken } from "../utils/tokenUti
 
 
 interface AuthState {
-  isLoggedIn: boolean;
-  isGuest: boolean;
+  isLoggedIn: boolean | null;
+  isGuest: boolean | null;
   error: string | null;
 }
 
 const initialState: AuthState = {
-    isLoggedIn: false,
-    isGuest: false,
+    isLoggedIn: null,
+    isGuest: null,
     error: null,
 };
 

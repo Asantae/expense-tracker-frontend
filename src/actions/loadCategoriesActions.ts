@@ -1,8 +1,7 @@
-import { useDispatch } from 'react-redux';
 import { getCategories } from '../services/api';
 import { showErrorToast } from '../utils/toastUtil';
 import { setCategories } from '../store/userSlice';
-import { Category } from '../../interfaces/Category';
+import { Category } from '../interfaces/Category';
 
 export const loadCategories = async (dispatch: any) => {
     try {
@@ -12,7 +11,7 @@ export const loadCategories = async (dispatch: any) => {
 
         return categoriesList;
     } catch (error) {
-        showErrorToast('Failed to load categories.');
+        showErrorToast('Failed to load categories');
         console.error(error)
         return [];
     }
