@@ -110,6 +110,25 @@ export const getCategories = async () => {
     }
 };
 
+export const addCategory = async (categoryName: string, ) => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    try {
+        const response = await httpClient.post(`/Expense/addCategory`, {
+            categoryName
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error adding expense:', error);
+        throw error;
+    }
+};
+
 export const getFrequencies = async () => {
     const token = getToken();
 

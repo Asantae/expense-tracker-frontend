@@ -1,6 +1,6 @@
 import { getFrequencies } from '../services/api';
 import { showErrorToast } from '../utils/toastUtil';
-import { Frequency } from '../interfaces/Frequency';
+import { Frequency } from '../interfaces/FrequencyEnum';
 
 export const loadFrequencies = async () => {
     try {

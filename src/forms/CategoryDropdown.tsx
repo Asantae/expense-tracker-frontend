@@ -25,7 +25,6 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newCategory, setNewCategory] = useState('');
 
-  // Handle category selection
   const handleCategoryChange = (e: SelectChangeEvent<string>) => {
     const categoryId = e.target.value;
     if (categoryId === 'add-new') {
@@ -41,11 +40,12 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
     e.preventDefault();
     if (newCategory.trim()) {
       const newCategoryObject: Category = {
-        id: `${Date.now()}`, // Temporary ID for the new category
+        id: '',
         name: newCategory,
         isDefault: false,
-        createdBy: '', // Replace with actual user ID
+        createdBy: '',
       };
+      
       setCategories((prevCategories) => [...prevCategories, newCategoryObject]);
       setSelectedCategory(newCategoryObject.id); // Automatically select the new category
       onCategorySelect(newCategoryObject.id);
