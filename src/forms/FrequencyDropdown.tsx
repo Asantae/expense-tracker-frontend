@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Box } from "@mui/material";
-import { enumToValueArray } from "../utils/enumToValueArray";
+import { enumToValueArray, getFrequencyDisplayValue } from "../utils/enumUtil";
 import { Frequency } from "../interfaces/FrequencyEnum";
 
 interface FrequencyDropdownProps {
@@ -9,11 +9,11 @@ interface FrequencyDropdownProps {
 
 const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect }) => {
   const frequencyOptions = enumToValueArray(Frequency);
-  const [selectedFrequency, setSelectedFrequency] = useState<string>("");
+  const [selectedFrequency, setSelectedFrequency] = useState<Frequency>(Frequency.OneTime);
 
   const handleFrequencyChange = (e: SelectChangeEvent<string>) => {
     const frequency = e.target.value;
-    setSelectedFrequency(frequency);
+    setSelectedFrequency(frequency as Frequency);
     onFrequencySelect(frequency);
   };
 
@@ -29,7 +29,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
         >
           {frequencyOptions.map((option) => (
             <MenuItem key={option.id} value={option.value}>
-              {option.value}
+              {getFrequencyDisplayValue(option.value)}
             </MenuItem>
           ))}
         </Select>

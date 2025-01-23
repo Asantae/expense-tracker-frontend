@@ -36,7 +36,6 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
     }
   };
 
-  // Add new category
   const handleSubmitCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newCategory.trim()) {

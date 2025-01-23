@@ -2,24 +2,36 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import CategoryDropdown from './CategoryDropdown';
 import FrequencyDropdown from './FrequencyDropdown';
+import { addExpenseAction } from '../actions/addExpenseAction';
+import { Expense } from '../interfaces/Expense';
+import { Frequency } from '../interfaces/FrequencyEnum';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store';
 
 interface AddExpenseFormProps {
   onSubmit: (data: { amount: number; description: string; categoryId: string; selectedFrequency: string }) => void;
 }
 
-const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onSubmit }) => {
+const AddExpenseForm: React.FC<AddExpenseFormProps> = () => {
+  const dispatch: AppDispatch = useDispatch();
   const [amount, setAmount] = useState<number>(0);
   const [description, setDescription] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [selectedFrequency, setSelectedFrequency] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmitExpense = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ amount, description, categoryId, selectedFrequency });
+    const newExpense: Expense = {
+      amount, 
+      description,
+      categoryId,
+      frequency: selectedFrequency as Frequency
+    };
+    await dispatch(addExpenseAction(newExpense));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
         <TextField
             label="Amount"
             type="number"
@@ -37,7 +49,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onSubmit }) => {
         />
         <CategoryDropdown onCategorySelect={setCategoryId}/>
         <FrequencyDropdown onFrequencySelect={setSelectedFrequency}/>
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Button onClick={handleSubmitExpense} type="submit" variant="contained" color="primary" fullWidth>
             Add Expense
         </Button>
     </form>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import AddExpenseModal from '../modals/AddExpenseModal';
 import { useModal } from '../modals/useModal';
-import { Expense } from '../../interfaces/Expense';
+import { Expense } from '../interfaces/Expense';
 import { loadExpenses } from '../actions/loadExpensesActions';
 import { AppDispatch } from '../store/store';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ const Expenses = () => {
     };
 
     const [expenses, setExpenses] = useState<Expense[]>([]);
-    const hasExpenses =  expenses.length === 0;   
+    const hasExpenses =  expenses.length !== 0;   
 
     useEffect(() => {
         const getExpenses = async () => {
@@ -32,7 +32,7 @@ const Expenses = () => {
             Expenses
         </Typography>
         <List>
-            {hasExpenses && 
+            {!hasExpenses && 
                 <Typography>You do not have any expenses to display yet</Typography>
             }
             {expenses && expenses.map((expense) => (

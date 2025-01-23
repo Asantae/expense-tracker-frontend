@@ -4,10 +4,11 @@ import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store/store';
 import { Action } from 'redux';
 import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
+import { Expense } from '../interfaces/Expense';
 
-export const addExpenseAction = (amount: number, description: string, categoryId: string, frequency: number): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
+export const addExpenseAction = (newExpense: Expense): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
-    const response = await addExpense(amount, description, categoryId, frequency);
+    const response = await addExpense(newExpense);
 
     dispatch({
       type: 'ADD_EXPENSE_SUCCESS',

@@ -1,6 +1,8 @@
 import { getToken, getUserFromToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
 import httpClient from '../utils/httpClient';
 import { Category } from '../interfaces/Category';
+import { Expense } from '../interfaces/Expense';
+import { Frequency } from '../interfaces/FrequencyEnum';
 
 export const getUser = async () => {
     const token = getToken();
@@ -183,19 +185,29 @@ export const getExpenses = async () => {
     }
 };
 
-export const addExpense = async (amount: number, description: string, categoryId: string, frequency: number) => {
+export const addExpense = async (expense: Expense) => {
     const token = getToken();
 
     if (!token) {
         throw new Error('User is not logged in.');
     }
 
+    const userId =  getUserFromToken(token).sub;
+
     try {
-        const response = await httpClient.post(`/Expense/addExpense`, {
-            amount,
-            description,
-            categoryId,
-            frequency
+        const response = await httpClient.post(`/Expense/addExpense`, 
+        {
+            id: '',
+            createdBy: '',
+            amount: expense.amount,
+            description: expense.description,
+            categoryId: expense.categoryId,
+            frequency: Frequency[expense.frequency]
+        },
+        {
+            params: {
+                userId,
+            }
         });
 
         return response.data;

@@ -1,11 +1,9 @@
+import { Frequency } from "./FrequencyEnum";
+
 export interface Expense {
-    id: string;
-    name: string;
+    id?: number;
     amount: number;
     categoryId: string;
-    userId: string;
-    frequency: 'daily' | 'weekly' | 'semi-monthly' | 'monthly';
+    frequency: Frequency;
     description?: string;
-    createdAt: string;
-    updatedAt: string;
 }
