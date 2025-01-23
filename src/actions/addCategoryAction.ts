@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { addExpense } from '../services/api';
+import { addCategory } from '../services/api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store/store';
 import { Action } from 'redux';
 import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
+import { Category } from '../interfaces/Category';
 
-export const addCategoryAction = (amount: number, description: string, categoryId: string, frequency: number): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
+export const addCategoryAction = (newCategory: Category): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
-    const response = await addExpense(amount, description, categoryId, frequency);
+    const response = await addCategory(newCategory);
 
     dispatch({
       type: 'ADD_CATEGORY_SUCCESS',

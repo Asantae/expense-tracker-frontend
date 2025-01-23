@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 import CategoryDropdown from './CategoryDropdown';
-import { loadFrequencies } from '../actions/loadFrequenciesAction';
-import { Frequency } from '../interfaces/FrequencyEnum';
 import FrequencyDropdown from './FrequencyDropdown';
 
 interface AddExpenseFormProps {

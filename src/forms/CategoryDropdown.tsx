@@ -17,6 +17,7 @@ import { AppDispatch } from '../store/store';
 import { useDispatch } from 'react-redux';
 import { loadCategories } from '../actions/loadCategoriesActions';
 import { Category } from '../interfaces/Category';
+import { addCategoryAction } from '../actions/addCategoryAction';
 
 const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId: string) => void }) => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,7 +37,7 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
   };
 
   // Add new category
-  const handleSubmitCategory = (e: React.FormEvent) => {
+  const handleSubmitCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newCategory.trim()) {
       const newCategoryObject: Category = {
@@ -45,9 +46,10 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
         isDefault: false,
         createdBy: '',
       };
-      
+      await dispatch(addCategoryAction(newCategoryObject))
+
       setCategories((prevCategories) => [...prevCategories, newCategoryObject]);
-      setSelectedCategory(newCategoryObject.id); // Automatically select the new category
+      setSelectedCategory(newCategoryObject.id); 
       onCategorySelect(newCategoryObject.id);
       setNewCategory('');
       setIsDialogOpen(false);

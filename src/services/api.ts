@@ -1,5 +1,6 @@
 import { getToken, getUserFromToken, setAccessToken, setRefreshToken } from '../utils/tokenUtil';
 import httpClient from '../utils/httpClient';
+import { Category } from '../interfaces/Category';
 
 export const getUser = async () => {
     const token = getToken();
@@ -110,16 +111,24 @@ export const getCategories = async () => {
     }
 };
 
-export const addCategory = async (categoryName: string, ) => {
+export const addCategory = async (newCategory: Category) => {
     const token = getToken();
 
     if (!token) {
         throw new Error('User is not logged in.');
     }
 
+    const userId = getUserFromToken(token).sub;
+
     try {
-        const response = await httpClient.post(`/Expense/addCategory`, {
-            categoryName
+        const response = await httpClient.post(`/Expense/addCategory`, 
+        {
+            name: newCategory.name
+        }, 
+        {
+            params: {
+                userId,
+            },
         });
 
         return response.data;

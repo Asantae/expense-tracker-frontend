@@ -1,9 +1,10 @@
 import { toast } from 'react-toastify';
 
 const genericToastString = `An unexpected error has occurred`;
+const MAX_CHAR_LENGTH = 100;
 
 export const showErrorToast = (message?: string) => {
-  if(message){
+  if(message && message.length < MAX_CHAR_LENGTH){
     toast.error(message, {
       position: 'bottom-center',
       autoClose: 5000,
