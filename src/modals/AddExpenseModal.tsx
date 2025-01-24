@@ -5,7 +5,7 @@ import AddExpenseForm from '../forms/AddExpenseForm';
 interface AddExpenseModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: { amount: number; description: string; categoryId: string; frequency: number }) => void;
+  onSubmit: (data: { amount: number; description: string; categoryId: string; selectedFrequency: string }) => void;
 }
 
 const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubmit }) => {
@@ -13,7 +13,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>Add New Expense</DialogTitle>
         <DialogContent>
-            <AddExpenseForm onSubmit={onSubmit} />
+            <AddExpenseForm onSubmit={onSubmit}/>
         </DialogContent>
         <DialogActions>
             <Button onClick={onClose} color="secondary">

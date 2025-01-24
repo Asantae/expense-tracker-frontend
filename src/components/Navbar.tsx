@@ -22,22 +22,6 @@ const Navbar: React.FC = () => {
                     Expense Tracker
                 </Typography>
                 <Box>
-                    <Button
-                        component={Link}
-                        to="/categories"
-                        color="inherit"
-                        sx={{ textTransform: 'none', mx: 1 }}
-                    >
-                        Categories
-                    </Button>
-                    <Button
-                        component={Link}
-                        to="/expenses"
-                        color="inherit"
-                        sx={{ textTransform: 'none', mx: 1 }}
-                    >
-                        Expenses
-                    </Button>
                     {isLoggedIn ? (
                         <Button
                             color="inherit"
