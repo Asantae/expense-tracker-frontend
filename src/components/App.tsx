@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 const App: React.FC = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ['/login', '/register'];
+  const hideNavbarRoutes = ['/login', '/register', '/'];
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
   
   return (

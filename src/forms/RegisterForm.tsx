@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, TextField, Typography, Card, Link } from '@mui/material';
-import { AppDispatch } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { TextField, Typography, Card, Link } from '@mui/material';
+import { AppDispatch, RootState } from '../store/store';
 import { register } from '../actions/registerAction';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../components/CustomButton';
+import { hasApiActivity } from '../utils/hasApiActivityUtil';
 
 const RegisterForm = () => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
+    const isLoading = useSelector((state: RootState) =>
+        hasApiActivity(state, 'user/setUser/pending')
+    );
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -49,9 +54,9 @@ const RegisterForm = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button type="submit" variant="contained" fullWidth color="primary">
+                <CustomButton disabled={isLoading} type="submit" variant="contained" fullWidth color="primary">
                     Register
-                </Button>
+                </CustomButton>
             </form>
             <Link href="/login" underline="hover">
                 <Typography>

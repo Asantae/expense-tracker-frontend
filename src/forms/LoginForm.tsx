@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/loginAction';
-import { Button, TextField, Typography, Card, Link } from '@mui/material';
-import { AppDispatch } from '../store/store';
+import { TextField, Typography, Card, Link } from '@mui/material';
+import { AppDispatch, RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../components/CustomButton';
+import { hasApiActivity } from '../utils/hasApiActivityUtil';
 
 const LoginForm = () => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
+    const isLoading = useSelector((state: RootState) =>
+        hasApiActivity(state, 'user/setUser/pending')
+    );
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -40,9 +45,12 @@ const LoginForm = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button type="submit" variant="contained" fullWidth color="primary">
+                <CustomButton disabled={isLoading} type="submit" variant="contained" fullWidth color="primary">
                     Login
-                </Button>
+                </CustomButton>
+                {/* <CustomButton disabled={isLoading} type="submit" variant="contained" fullWidth color="primary">
+                    Temporary Guest Login Button 
+                </CustomButton> */}
             </form>
             <Link href="/register" underline="hover" paddingX={5} >
                 <Typography>

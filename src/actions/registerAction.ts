@@ -8,12 +8,16 @@ import { setUser } from '../store/userSlice';
 
 export const register = (email: string, username: string, password: string, navigate: any): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
+    dispatch({ type: 'user/setUser/pending' });
+
     const { token, user} = await registerUser(email, username, password);
 
     dispatch({
       type: 'REGISTER_SUCCESS',
       payload: token,
     });
+
+    dispatch({ type: 'user/setUser/fulfilled' });
     
     dispatch(setUser(user));
 
@@ -21,6 +25,11 @@ export const register = (email: string, username: string, password: string, navi
 
     showSuccessToast('Registration successful!');
   } catch (error) {
+    dispatch({
+      type: 'user/setUser/rejected',
+      payload: error,
+    });
+
     if(axios.isAxiosError(error) && error.response){
       showErrorToast(`${error.response?.data}`);
     } else {

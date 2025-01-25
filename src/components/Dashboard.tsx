@@ -1,26 +1,23 @@
 import { Box, Button, List, ListItem, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { loadCategories } from '../actions/loadCategoriesActions';
+import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadExpenses } from '../actions/loadExpensesActions';
 import AddExpenseModal from '../modals/AddExpenseModal';
-import { setExpenses } from '../store/userSlice';
 import { useModal } from '../modals/useModal';
-import { Expense } from '../interfaces/Expense';
+import { getFrequencyDisplayValue } from '../utils/enumUtil';
 
 const Dashboard = () => {
     const dispatch: AppDispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
     const { isOpen, openModal, closeModal } = useModal();
 
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    const expenses = useSelector((state: RootState) => state.user.expensesList || []);
     const hasExpenses =  expenses.length !== 0;   
 
     useEffect(() => {
         const getExpenses = async () => {
-            const expensesData = await loadExpenses(dispatch);
-            setExpenses(expensesData);
+            await loadExpenses(dispatch);
         };
         getExpenses();
     }, [dispatch]);
@@ -35,7 +32,7 @@ const Dashboard = () => {
             }
             {expenses && expenses.map((expense) => (
                 <ListItem key={expense.id}>
-                    <Typography>{`${expense.description} - $${expense.amount}`}</Typography>
+                    <Typography>{`${getFrequencyDisplayValue(expense.frequency)} - ${expense.description} - $${expense.amount}`}</Typography>
                 </ListItem>
             ))}
         </List>

@@ -13,7 +13,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>Add New Expense</DialogTitle>
         <DialogContent>
-            <AddExpenseForm onSubmit={onSubmit}/>
+            <AddExpenseForm onSubmit={onSubmit} onClose={onClose}/>
         </DialogContent>
         <DialogActions>
             <Button onClick={onClose} color="secondary">

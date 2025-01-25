@@ -13,15 +13,24 @@ import {
   SelectChangeEvent,
   Box,
 } from '@mui/material';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { useDispatch } from 'react-redux';
 import { loadCategories } from '../actions/loadCategoriesActions';
 import { Category } from '../interfaces/Category';
 import { addCategoryAction } from '../actions/addCategoryAction';
+import { useSelector } from 'react-redux';
+import { hasApiActivity } from '../utils/hasApiActivityUtil';
+import CustomButton from '../components/CustomButton';
 
-const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId: string) => void }) => {
+interface CategoryDropdownProps {
+  onCategorySelect: (categoryId: string) => void;
+  isLoading: boolean;
+}
+
+const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, isLoading }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const categories = useSelector((state: RootState) => state.user.categoriesList || []);
+
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newCategory, setNewCategory] = useState('');
@@ -45,11 +54,14 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
         isDefault: false,
         createdBy: '',
       };
-      await dispatch(addCategoryAction(newCategoryObject))
 
-      setCategories((prevCategories) => [...prevCategories, newCategoryObject]);
-      setSelectedCategory(newCategoryObject.id); 
-      onCategorySelect(newCategoryObject.id);
+      const result = await dispatch(addCategoryAction(newCategoryObject))
+
+      if(result){
+        setSelectedCategory(result.id); 
+        onCategorySelect(result.id);
+      }
+
       setNewCategory('');
       setIsDialogOpen(false);
     }
@@ -57,8 +69,7 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
 
   useEffect(() => {
     const getCategories = async () => {
-      const categoriesData = await loadCategories(dispatch);
-      setCategories(categoriesData);
+      await loadCategories(dispatch);
     };
     getCategories();
   }, [dispatch]);
@@ -72,6 +83,7 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
           value={selectedCategory}
           onChange={handleCategoryChange}
           displayEmpty
+          disabled={isLoading}
         >
           {categories.map((category) => (
             <MenuItem key={category.id} value={category.id}>
@@ -96,12 +108,12 @@ const CategoryDropdown = ({ onCategorySelect }: { onCategorySelect: (categoryId:
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsDialogOpen(false)} color="secondary">
+          <CustomButton onClick={() => setIsDialogOpen(false)} color="secondary" disabled={isLoading}>
             Cancel
-          </Button>
-          <Button onClick={handleSubmitCategory} color="primary" variant="contained">
+          </CustomButton>
+          <CustomButton onClick={handleSubmitCategory} color="primary" variant="contained" disabled={isLoading}>
             Add
-          </Button>
+          </CustomButton>
         </DialogActions>
       </Dialog>
     </Box>

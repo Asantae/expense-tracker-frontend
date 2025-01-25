@@ -209,6 +209,7 @@ export const addExpense = async (expense: Expense) => {
                 userId,
             }
         });
+console.log(response);
 
         return response.data;
     } catch (error) {

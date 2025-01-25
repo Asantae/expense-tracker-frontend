@@ -8,6 +8,8 @@ import { setUser } from '../store/userSlice';
 
 export const login = (username: string, password: string, navigate: any): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
+    dispatch({ type: 'user/setUser/pending'});
+    
     const { token, user } = await loginUser(username, password);
 
     dispatch({
@@ -15,12 +17,19 @@ export const login = (username: string, password: string, navigate: any): ThunkA
       payload: token,
     });
 
-    dispatch(setUser( user ));
+    dispatch({ type: 'user/setUser/fulfilled' });
+
+    dispatch(setUser(user));
 
     navigate(`/dashboard/user/${user.id}`)
 
     showSuccessToast('Login successful!');
   } catch (error) {
+    dispatch({
+      type: 'user/setUser/rejected',
+      payload: error,
+    });
+
     if(axios.isAxiosError(error) && error.response){
       showErrorToast(`${error.response?.data}`);
     } else {

@@ -5,9 +5,10 @@ import { Frequency } from "../interfaces/FrequencyEnum";
 
 interface FrequencyDropdownProps {
   onFrequencySelect: (frequency: string) => void;
+  isLoading: boolean;
 }
 
-const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect }) => {
+const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading }) => {
   const frequencyOptions = enumToValueArray(Frequency);
   const [selectedFrequency, setSelectedFrequency] = useState<Frequency>(Frequency.OneTime);
 
@@ -26,6 +27,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
           value={selectedFrequency}
           onChange={handleFrequencyChange}
           displayEmpty
+          disabled={isLoading}
         >
           {frequencyOptions.map((option) => (
             <MenuItem key={option.id} value={option.value}>

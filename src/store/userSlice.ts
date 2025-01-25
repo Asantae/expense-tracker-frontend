@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Category } from '../../interfaces/Category';
-import { Expense } from '../../interfaces/Expense';
-import { User } from '../../interfaces/User';
+import { Category } from '../interfaces/Category';
+import { Expense } from '../interfaces/Expense';
+import { User } from '../interfaces/User';
 
 interface UserState {
   userId: string | null;
@@ -40,6 +40,20 @@ const userSlice = createSlice({
         },
         setExpenses: (state, action: PayloadAction<{ expenses: Expense[] }>) => {
             state.expensesList = action.payload.expenses;
+        },
+        addExpenseToList: (state, action: PayloadAction<Expense>) => {
+            if(state.expensesList){
+                state.expensesList.push(action.payload);
+            } else {
+                state.expensesList = [action.payload];
+            }
+        },
+        addCategoryToList: (state, action: PayloadAction<Category>) => {
+            if(state.categoriesList){
+                state.categoriesList.push(action.payload);
+            } else {
+                state.categoriesList = [action.payload];
+            }
         },
     },
 });

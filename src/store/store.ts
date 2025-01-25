@@ -4,6 +4,7 @@ import { thunk, ThunkDispatch } from 'redux-thunk';
 import userReducer from '../store/userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
+import { apiActivityMiddleware, apiReducer } from './apiActivityMiddleware';
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  api: apiReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -25,7 +27,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
-    }).concat(thunk),
+    }).concat(thunk, apiActivityMiddleware),
 });
 
 const persistor = persistStore(store);
