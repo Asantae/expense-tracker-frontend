@@ -79,6 +79,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, i
       <FormControl fullWidth>
         <InputLabel id="category-select-label">Category</InputLabel>
         <Select
+          sx={{ marginBottom: 2 }}
           labelId="category-select-label"
           value={selectedCategory}
           onChange={handleCategoryChange}

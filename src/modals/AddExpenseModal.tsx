@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
 import AddExpenseForm from '../forms/AddExpenseForm';
 
 interface AddExpenseModalProps {
@@ -11,15 +11,17 @@ interface AddExpenseModalProps {
 const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubmit }) => {
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>Add New Expense</DialogTitle>
-        <DialogContent>
-            <AddExpenseForm onSubmit={onSubmit} onClose={onClose}/>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={onClose} color="secondary">
-                Cancel
-            </Button>
-        </DialogActions>
+            <DialogTitle>Add New Expense</DialogTitle>
+            <DialogContent sx={{ paddingBottom: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <AddExpenseForm onSubmit={onSubmit} onClose={onClose} />
+                </Box>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose} color="secondary">
+                    Cancel
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };
