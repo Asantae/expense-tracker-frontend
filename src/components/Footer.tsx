@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
     >
       <Container maxWidth="lg">
         <Typography variant="h6" sx={{ mb: 1 }}>
-          Expense Tracker App
+          Asantae's Expense Tracker App
         </Typography>
         <Typography variant="body2" sx={{ mb: 2 }}>
           © {new Date().getFullYear()} Asantae's Expense Tracker App. All rights reserved.
