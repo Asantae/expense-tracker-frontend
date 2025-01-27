@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
     const navigate = useNavigate();
 
     const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+    const isGuest = useSelector((state: RootState) => state.auth.isGuest);
     
     const handleLogout = async () => {
         await dispatch(logout(navigate))
@@ -22,6 +23,16 @@ const Navbar: React.FC = () => {
                     Expense Tracker
                 </Typography>
                 <Box>
+                    {
+                        isGuest && isLoggedIn &&                         
+                        <Button
+                            color="inherit"
+                            sx={{ textTransform: 'none', mx: 1 }}
+                            // onClick={openGuestRegisterModal}
+                        >
+                            Register
+                        </Button>
+                    }
                     {isLoggedIn ? (
                         <Button
                             color="inherit"

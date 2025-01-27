@@ -51,6 +51,23 @@ export const loginUser = async (username: string, password: string) => {
     }
 };
 
+export const loginGuest = async () => {
+    try {
+        const response = await httpClient.post(`/User/guest`, {});
+        const token = response.data.token;
+        const refreshToken = response.data.refreshToken;
+        const user = response.data.user;
+        
+        setAccessToken(token);
+        setRefreshToken(refreshToken);
+
+        return { token, user };
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
 export const logoutUser = async () => {
     const refreshToken = getToken(); 
     if (!refreshToken) {
@@ -76,6 +93,41 @@ export const registerUser = async (email: string, username: string, password: st
             username, 
             password
         });
+        const token = response.data.token;
+        const refreshToken = response.data.refreshToken;
+        const user = response.data.user;
+        
+        setAccessToken(token);
+        setRefreshToken(refreshToken);
+
+        return { token, user };
+    } catch (error) {
+        console.error('Error registering:', error);
+        throw error;
+    }
+};
+
+export const registerAsGuest = async (email: string, username: string, password: string) => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('Guest user is not logged in.');
+    }
+
+    const userId = getUserFromToken(token).sub;
+    try {
+        const response = await httpClient.post(`/User/registerGuest`,
+        {
+            email: email,
+            username: username,
+            password: password,
+        }, 
+        {
+            params: {
+                userId,
+            },
+        });
+        
         const token = response.data.token;
         const refreshToken = response.data.refreshToken;
         const user = response.data.user;

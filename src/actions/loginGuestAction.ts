@@ -1,29 +1,29 @@
 import axios from 'axios';
-import { registerUser } from '../services/api';
+import { loginGuest } from '../services/api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store/store';
 import { Action } from 'redux';
 import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
 import { setUser } from '../store/userSlice';
 
-export const register = (email: string, username: string, password: string, navigate: any): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
+export const loginAsGuest = (navigate: any): ThunkAction<Promise<void>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
-    dispatch({ type: 'user/setUser/pending' });
-
-    const { token, user } = await registerUser(email, username, password);
+    dispatch({ type: 'user/setUser/pending'});
+    
+    const { token, user } = await loginGuest();
 
     dispatch({
-      type: 'REGISTER_SUCCESS',
+      type: 'LOGIN_GUEST_SUCCESS',
       payload: token,
     });
 
     dispatch({ type: 'user/setUser/fulfilled' });
-    
+
     dispatch(setUser(user));
 
     navigate(`/dashboard/user/${user.id}`)
 
-    showSuccessToast('Registration successful!');
+    showSuccessToast('Guest Login successful');
   } catch (error) {
     dispatch({
       type: 'user/setUser/rejected',

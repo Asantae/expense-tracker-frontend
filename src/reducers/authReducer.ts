@@ -15,6 +15,7 @@ const initialState: AuthState = {
 
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case 'GUEST_REGISTER_SUCCESS':
     case 'REGISTER_SUCCESS':
     case 'LOGIN_SUCCESS':
       setAccessToken(action.payload);
@@ -24,12 +25,21 @@ const authReducer = (state = initialState, action: any) => {
         isLoggedIn: true,
         isGuest: false
       };
+    case 'GUEST_LOGIN_SUCCESS':
+      setAccessToken(action.payload);
+      
+      return { 
+        ...state, 
+        isLoggedIn: true,
+        isGuest: true
+      };
     case 'LOGOUT_SUCCESS':
       removeTokens();
 
       return { 
         ...state, 
         isLoggedIn: false,
+        isGuest: false,
       };
     case 'REFRESH_TOKEN_SUCCESS':
       setRefreshToken(action.payload);

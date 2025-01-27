@@ -6,6 +6,7 @@ import { register } from '../actions/registerAction';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
 import { hasApiActivity } from '../utils/hasApiActivityUtil';
+import { loginAsGuest } from '../actions/loginGuestAction';
 
 const RegisterForm = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,6 +22,11 @@ const RegisterForm = () => {
   const handleRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
     await dispatch(register(email, username, password, navigate));
+  };
+
+  const handleGuestLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await dispatch(loginAsGuest(navigate));
   };
 
   return (
@@ -69,6 +75,7 @@ const RegisterForm = () => {
             Register
           </CustomButton>
           <CustomButton
+            onClick={handleGuestLogin}
             disabled={isLoading}
             variant="contained"
             fullWidth
