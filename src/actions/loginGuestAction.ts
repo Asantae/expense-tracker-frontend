@@ -13,7 +13,7 @@ export const loginAsGuest = (navigate: any): ThunkAction<Promise<void>, RootStat
     const { token, user } = await loginGuest();
 
     dispatch({
-      type: 'LOGIN_GUEST_SUCCESS',
+      type: 'GUEST_LOGIN_SUCCESS',
       payload: token,
     });
 
@@ -23,7 +23,7 @@ export const loginAsGuest = (navigate: any): ThunkAction<Promise<void>, RootStat
 
     navigate(`/dashboard/user/${user.id}`)
 
-    showSuccessToast('Guest Login successful');
+    showSuccessToast('Guest login successful');
   } catch (error) {
     dispatch({
       type: 'user/setUser/rejected',
