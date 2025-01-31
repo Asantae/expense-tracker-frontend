@@ -230,6 +230,7 @@ export const getExpenses = async () => {
                 userId,
             },
         });
+        
         return response.data.expenses;
     } catch (error) {
         console.error('Error fetching expenses:', error);
@@ -261,7 +262,6 @@ export const addExpense = async (expense: Expense) => {
                 userId,
             }
         });
-console.log(response);
 
         return response.data;
     } catch (error) {

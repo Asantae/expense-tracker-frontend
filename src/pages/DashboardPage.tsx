@@ -7,6 +7,7 @@ import { useModal } from '../modals/useModal';
 import { getFrequencyDisplayValue } from '../utils/enumUtil';
 import AddExpenseForm from '../forms/AddExpenseForm';
 import CustomModal from '../modals/CustomModal';
+import ExpensesTable from '../components/expenses/ExpensesTable';
 
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,23 +32,14 @@ const Dashboard = () => {
       <Typography variant="body1" sx={{ mb: 2 }}>
         Here is an overview of your expenses:
       </Typography>
-      
-      <List>
-        {!hasExpenses && (
-          <Typography variant="body2" color="textSecondary">
-            You do not have any expenses to display yet.
-          </Typography>
-        )}
-        {expenses &&
-          expenses.map((expense) => (
-            <ListItem key={expense.id}>
-              <Typography>
-                {`${getFrequencyDisplayValue(expense.frequency)} - ${expense.description} - $${expense.amount}`}
-              </Typography>
-            </ListItem>
-          ))}
-      </List>
 
+      {hasExpenses ? (
+        <ExpensesTable data={expenses}/>
+      ):(
+        <Typography variant="body2" color="textSecondary">
+          You do not have any expenses to display yet.
+        </Typography>
+      )}
       <Button
         variant="contained"
         color="primary"

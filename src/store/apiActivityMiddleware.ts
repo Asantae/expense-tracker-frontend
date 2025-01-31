@@ -11,21 +11,13 @@ const initialState: ApiState = {
 
 export const apiActivityMiddleware: Middleware = (store) => (next) => (action) => {
   const { type } = action as Action;
-
-  console.log("API action called: ", action);
-  
-  
   
   const isPending = type.endsWith('/pending');
   const isComplete = type.endsWith('/fulfilled') || type.endsWith('/rejected');
 
   if (isPending) {
-    console.log('pending');
-    
     store.dispatch({ type: 'api/addRequest', payload: type });  
   } else if (isComplete) {
-    console.log('complete');
-    
     store.dispatch({ type: 'api/removeRequest', payload: type.replace(/\/(fulfilled|rejected)$/, '/pending') });
   }
 
