@@ -10,7 +10,7 @@ interface FrequencyDropdownProps {
 
 const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading }) => {
   const frequencyOptions = enumToValueArray(Frequency);
-  const [selectedFrequency, setSelectedFrequency] = useState<Frequency>(Frequency.OneTime);
+  const [selectedFrequency, setSelectedFrequency] = useState<Frequency>();
 
   const handleFrequencyChange = (e: SelectChangeEvent<string>) => {
     const frequency = e.target.value;
@@ -23,10 +23,11 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
       <FormControl fullWidth>
         <InputLabel id="frequency-select-label">Frequency</InputLabel>
         <Select
+          variant="outlined"
           labelId="frequency-select-label"
+          id="frequency-id"
           value={selectedFrequency}
           onChange={handleFrequencyChange}
-          displayEmpty
           disabled={isLoading}
         >
           {frequencyOptions.map((option) => (

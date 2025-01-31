@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/loginAction';
-import { TextField, Typography, Card, Link, Box, Container } from '@mui/material';
+import { TextField, Typography, Card, Link, Container } from '@mui/material';
 import { AppDispatch, RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
@@ -36,22 +36,27 @@ const LoginForm = () => {
         </Typography>
         <form onSubmit={handleLogin}>
           <TextField
+            error={!username}
+            disabled={isLoading}
             label="Username"
             variant="outlined"
             fullWidth
-            margin="normal"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            sx={{ mb: 2 }}
+            helperText="This is a required field."
           />
           <TextField
+            error={!password}
+            disabled={isLoading}
             label="Password"
             type="password"
             variant="outlined"
             fullWidth
-            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            sx={{ mb: 4 }}
+            sx={{ mb: 2 }}
+            helperText="This is a required field."
           />
           <CustomButton
             disabled={isLoading}

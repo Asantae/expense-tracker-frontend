@@ -25,7 +25,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   );
   const isLoading = isAddingCategoryToList || isAddingExpenseToList;
 
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>();
   const [description, setDescription] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [selectedFrequency, setSelectedFrequency] = useState<string>('');
