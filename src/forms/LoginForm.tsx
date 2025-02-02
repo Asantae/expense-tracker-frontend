@@ -17,9 +17,14 @@ const LoginForm = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
+
+    if(!username || !password){ return; }
+
     await dispatch(login(username, password, navigate));
   };
 
@@ -36,7 +41,7 @@ const LoginForm = () => {
         </Typography>
         <form onSubmit={handleLogin}>
           <TextField
-            error={!username}
+            error={submitted && !username}
             disabled={isLoading}
             label="Username"
             variant="outlined"
@@ -44,10 +49,10 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2 }}
-            helperText="This is a required field."
+            helperText={submitted && !username ? "This is a required field." : ""}
           />
           <TextField
-            error={!password}
+            error={submitted && !password}
             disabled={isLoading}
             label="Password"
             type="password"
@@ -56,7 +61,7 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={{ mb: 2 }}
-            helperText="This is a required field."
+            helperText={submitted && !password ? "This is a required field." : ""}
           />
           <CustomButton
             disabled={isLoading}

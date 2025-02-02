@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Box } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Box, FormHelperText } from "@mui/material";
 import { enumToValueArray, getFrequencyDisplayValue } from "../utils/enumUtil";
 import { Frequency } from "../interfaces/FrequencyEnum";
 
 interface FrequencyDropdownProps {
   onFrequencySelect: (frequency: string) => void;
   isLoading: boolean;
+  error: boolean;
+  helperText: string;
 }
 
-const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading }) => {
+const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading, error, helperText }) => {
   const frequencyOptions = enumToValueArray(Frequency);
   const [selectedFrequency, setSelectedFrequency] = useState<Frequency>();
 
@@ -20,12 +22,12 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
 
   return (
     <Box>
-      <FormControl fullWidth>
+      <FormControl fullWidth error={error} sx={{ mb: 2 }}>
         <InputLabel id="frequency-select-label">Frequency</InputLabel>
         <Select
-          variant="outlined"
           labelId="frequency-select-label"
-          id="frequency-id"
+          label="Frequency"
+          id="frequency-select"
           value={selectedFrequency}
           onChange={handleFrequencyChange}
           disabled={isLoading}
@@ -36,6 +38,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
             </MenuItem>
           ))}
         </Select>
+        {error && <FormHelperText>{helperText}</FormHelperText>}
       </FormControl>
     </Box>
   );

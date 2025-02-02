@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
 import { hasApiActivity } from '../utils/hasApiActivityUtil';
 import { registerGuest } from '../actions/registerGuestAction';
+import { checkPasswordMatch } from '../utils/formUtil';
 
 interface GuestRegisterFormProps {
     onClose: () => void;
@@ -21,9 +22,19 @@ const GuestRegisterForm: React.FC<GuestRegisterFormProps> = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordReEntry, setPasswordReEntry] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleGuestRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
+
+    if(!username || !password){ return; }
+
+    if(!checkPasswordMatch(password, passwordReEntry)){
+      return;
+    }
+
     await dispatch(registerGuest(email, username, password, navigate));
 
     onClose;
@@ -33,33 +44,48 @@ const GuestRegisterForm: React.FC<GuestRegisterFormProps> = ({ onClose }) => {
     <Container maxWidth="xs" sx={{ mt: 8 }}>
         <form onSubmit={handleGuestRegistration}>
           <TextField
+            error={submitted && !email}
             label="Email"
             variant="outlined"
             fullWidth
-            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !email ? "This is a required field." : ""}
           />
           <TextField
+            error={submitted && !username}
             label="Username"
             variant="outlined"
             fullWidth
-            margin="normal"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !username ? "This is a required field." : ""}
           />
           <TextField
+            error={submitted && !password}
             label="Password"
             type="password"
             variant="outlined"
             fullWidth
-            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !password ? "This is a required field." : ""}
           />
+          {password && <TextField
+            error={submitted && !checkPasswordMatch(password, passwordReEntry)}
+            disabled={isLoading}
+            label="Re-Enter Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            value={passwordReEntry}
+            onChange={(e) => setPasswordReEntry(e.target.value)}
+            sx={{ mb: 2, mt: 2 }}     
+            helperText={submitted && passwordReEntry && !checkPasswordMatch(password, passwordReEntry) ? "Passwords must match." : ""}     
+          />}
           <CustomButton
             disabled={isLoading}
             type="submit"

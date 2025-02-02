@@ -44,7 +44,7 @@ const ExpensesTable: React.FC<ExpensesTableProps> = ({ data }) => {
         </tbody>
         </table>
         <Box>
-            {table.getCanPreviousPage() && <IconButton
+            {<IconButton
                 onClick={() => table.setPageIndex(table.getState().pagination.pageIndex - 1)}
                 disabled={!table.getCanPreviousPage()}
             >
@@ -53,7 +53,7 @@ const ExpensesTable: React.FC<ExpensesTableProps> = ({ data }) => {
             <span>
                 Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </span>
-            {table.getCanNextPage() && <IconButton
+            {<IconButton
                 onClick={() => table.setPageIndex(table.getState().pagination.pageIndex + 1)}
                 disabled={!table.getCanNextPage()}
             >

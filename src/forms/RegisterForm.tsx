@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, Typography, Card, Link, Container, List, ListItem } from '@mui/material';
+import { TextField, Typography, Card, Link, Container } from '@mui/material';
 import { AppDispatch, RootState } from '../store/store';
 import { register } from '../actions/registerAction';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
 import { hasApiActivity } from '../utils/hasApiActivityUtil';
 import { loginAsGuest } from '../actions/loginGuestAction';
+import { checkPasswordMatch } from '../utils/formUtil';
 
 const RegisterForm = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -19,9 +20,14 @@ const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordReEntry, setPasswordReEntry] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
+
+    if(!username || !password){ return; }
+
     if(!checkPasswordMatch(password, passwordReEntry)){
       return;
     }
@@ -34,10 +40,6 @@ const RegisterForm = () => {
     await dispatch(loginAsGuest(navigate));
   };
 
-  const checkPasswordMatch = (password: string, passwordReEntry: string ) => {
-    return password === passwordReEntry;
-  };
-
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
       <Card sx={{ padding: 3 }}>
@@ -46,6 +48,7 @@ const RegisterForm = () => {
         </Typography>
         <form onSubmit={handleRegistration}>
           <TextField
+            error={submitted && !email}
             disabled={isLoading}
             label="Email"
             variant="outlined"
@@ -53,8 +56,10 @@ const RegisterForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !email ? "This is a required field." : ""}
           />
           <TextField
+            error={submitted && !username}
             disabled={isLoading}
             label="Username"
             variant="outlined"
@@ -62,8 +67,10 @@ const RegisterForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !username ? "This is a required field." : ""}
           />
           <TextField
+            error={submitted && !password}
             disabled={isLoading}
             label="Password"
             type="password"
@@ -72,9 +79,10 @@ const RegisterForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={{ mb: 2 }}
+            helperText={submitted && !password ? "This is a required field." : ""}
           />
-          {!checkPasswordMatch(password, passwordReEntry) && password && <Typography variant="caption" color='error'>Passwords must match</Typography>}
           {password && <TextField
+            error={submitted && !checkPasswordMatch(password, passwordReEntry)}
             disabled={isLoading}
             label="Re-Enter Password"
             type="password"
@@ -82,7 +90,8 @@ const RegisterForm = () => {
             fullWidth
             value={passwordReEntry}
             onChange={(e) => setPasswordReEntry(e.target.value)}
-            sx={{ mb: 2, mt: 2 }}          
+            sx={{ mb: 2, mt: 2 }}     
+            helperText={submitted && passwordReEntry && !checkPasswordMatch(password, passwordReEntry) ? "Passwords must match." : ""}     
           />}
           <CustomButton
             disabled={isLoading}

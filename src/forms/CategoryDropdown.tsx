@@ -12,6 +12,7 @@ import {
   InputLabel,
   SelectChangeEvent,
   Box,
+  FormHelperText,
 } from '@mui/material';
 import { AppDispatch, RootState } from '../store/store';
 import { useDispatch } from 'react-redux';
@@ -25,9 +26,11 @@ import CustomButton from '../components/CustomButton';
 interface CategoryDropdownProps {
   onCategorySelect: (categoryId: string) => void;
   isLoading: boolean;
+  error: boolean;
+  helperText: string;
 }
 
-const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, isLoading }) => {
+const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, isLoading, error, helperText }) => {
   const dispatch: AppDispatch = useDispatch();
   const categories = useSelector((state: RootState) => state.user.categoriesList || []);
 
@@ -76,12 +79,11 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, i
 
   return (
     <Box>
-      <FormControl fullWidth>
+      <FormControl fullWidth error={error} sx={{ mb: 2 }}>
         <InputLabel id="category-select-label">Category</InputLabel>
         <Select
-          variant='outlined'
-          sx={{ marginBottom: 2 }}
           labelId="category-select-label"
+          label="Category"
           value={selectedCategory}
           onChange={handleCategoryChange}
           disabled={isLoading}
@@ -95,12 +97,14 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, i
             Add New Category
           </MenuItem>
         </Select>
+        {error && <FormHelperText>{helperText}</FormHelperText>}
       </FormControl>
 
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <DialogTitle>Add New Category</DialogTitle>
         <DialogContent>
           <TextField
+            sx={{ mt: 1 }}
             label="Category Name"
             variant="outlined"
             fullWidth

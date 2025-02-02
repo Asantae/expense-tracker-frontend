@@ -29,9 +29,14 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   const [description, setDescription] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [selectedFrequency, setSelectedFrequency] = useState<string>('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmitExpense = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
+    
+    if(formHasError()){ return; }
+
     const newExpense: Expense = {
       amount, 
       description,
@@ -45,36 +50,70 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
     }
   };
 
+  const getAmountHelperText = () => {
+    if (!submitted) {return "";}
+    if (!amount) {return "This is a required field.";}
+    if (amount <= 0) {return "The amount must be greater than zero.";}
+    return "";
+  };
+
+  const amountHasError = () => {
+    return submitted && (!amount || amount <= 0);
+  };
+
+  const formHasError = () => {
+    return !amount || !selectedFrequency || !categoryId || amountHasError();
+  }
+
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
         <form onSubmit={handleSubmitExpense}>
           <TextField
+            error={amountHasError()}
             label="Amount"
             type="number"
             fullWidth
-            margin="normal"
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
             disabled={isLoading}
+            helperText={getAmountHelperText()}
+            sx={{ mb: 2 }}
           />
           <TextField
             label="Description"
             fullWidth
-            margin="normal"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             disabled={isLoading}
-            sx={{ marginBottom: 2 }}
+            sx={{ mb: 2 }}
+            slotProps={{
+              input: {
+                endAdornment: !description && (
+                  <Typography variant="body1" sx={{ color: 'text.secondary', ml: 2 }}>
+                    Optional
+                  </Typography>
+                ),
+              },
+            }}
           />
-          <CategoryDropdown onCategorySelect={setCategoryId} isLoading={isLoading} />
-          <FrequencyDropdown onFrequencySelect={setSelectedFrequency} isLoading={isLoading} />
+          <CategoryDropdown 
+            error={submitted && !categoryId}
+            onCategorySelect={setCategoryId} 
+            isLoading={isLoading} 
+            helperText={submitted && !categoryId ? "This is a required field." : ""}
+          />
+          <FrequencyDropdown 
+            error={submitted && !selectedFrequency}
+            onFrequencySelect={setSelectedFrequency} 
+            isLoading={isLoading} 
+            helperText={submitted && !selectedFrequency ? "This is a required field." : ""}
+          />
           <CustomButton  
             isLoading={isLoading}
             type="submit" 
             variant="contained" 
             color="primary" 
             fullWidth
-            sx={{ marginTop: 3 }}
           >
             Submit Expense
           </CustomButton>        
