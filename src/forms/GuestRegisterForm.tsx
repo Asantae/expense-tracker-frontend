@@ -41,7 +41,7 @@ const GuestRegisterForm: React.FC<GuestRegisterFormProps> = ({ onClose }) => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
+    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
         <form onSubmit={handleGuestRegistration}>
           <TextField
             error={submitted && !email}
@@ -88,6 +88,7 @@ const GuestRegisterForm: React.FC<GuestRegisterFormProps> = ({ onClose }) => {
           />}
           <CustomButton
             disabled={isLoading}
+            loading={isLoading}
             type="submit"
             variant="contained"
             fullWidth

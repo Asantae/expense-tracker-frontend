@@ -116,7 +116,7 @@ export const registerAsGuest = async (email: string, username: string, password:
 
     const userId = getUserFromToken(token).sub;
     try {
-        const response = await httpClient.post(`/User/registerGuest`,
+        const response = await httpClient.patch(`/User/registerGuest`,
         {
             email: email,
             username: username,
@@ -255,7 +255,7 @@ export const addExpense = async (expense: Expense) => {
             amount: expense.amount,
             description: expense.description,
             categoryId: expense.categoryId,
-            frequency: Frequency[expense.frequency]
+            frequency: Frequency[expense.frequency ?? Frequency.OneTime]
         },
         {
             params: {
@@ -266,6 +266,59 @@ export const addExpense = async (expense: Expense) => {
         return response.data;
     } catch (error) {
         console.error('Error adding expense:', error);
+        throw error;
+    }
+};
+
+export const editExpense = async (editedExpense: Expense) => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    const userId =  getUserFromToken(token).sub;
+
+    try {
+        const response = await httpClient.patch(`/Expense/editExpense`, 
+        {
+            id: editedExpense.id,
+            createdBy: '',
+            amount: editedExpense.amount,
+            description: editedExpense.description,
+            categoryId: editedExpense.categoryId,
+            frequency: Frequency[editedExpense.frequency ?? Frequency.OneTime]
+        },
+        {
+            params: {
+                userId,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error editing expense:', error);
+        throw error;
+    }
+};
+
+export const deleteExpenses = async (expenseIds: string[]) => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error('User is not logged in.');
+    }
+
+    const userId =  getUserFromToken(token).sub;
+
+    try {
+        const response = await httpClient.delete(`/Expense/deleteExpenses`, {
+            params: { userId, expenseIds: expenseIds.join(',') } 
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting expenses:', error);
         throw error;
     }
 };

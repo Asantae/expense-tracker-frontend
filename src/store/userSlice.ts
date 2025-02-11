@@ -55,8 +55,22 @@ const userSlice = createSlice({
                 state.categoriesList = [action.payload];
             }
         },
+        editExpenseInList: (state, action: PayloadAction<Expense>) => {
+            if (state.expensesList) {
+                state.expensesList = state.expensesList.map((expense) =>
+                    expense.id === action.payload.id ? action.payload : expense
+                );
+            }
+        },
+        deleteExpenseInList: (state, action: PayloadAction<string[]>) => {
+            if(state.expensesList) {
+                state.expensesList = state.expensesList.filter(
+                    (expense) => !action.payload.includes(expense.id ?? '')
+                );
+            }
+        }
     },
 });
 
-export const { setUser, clearUser, setCategories, setExpenses } = userSlice.actions;
+export const { setUser, clearUser, setCategories, setExpenses, editExpenseInList } = userSlice.actions;
 export default userSlice.reducer;

@@ -20,7 +20,6 @@ import { loadCategories } from '../actions/loadCategoriesActions';
 import { Category } from '../interfaces/Category';
 import { addCategoryAction } from '../actions/addCategoryAction';
 import { useSelector } from 'react-redux';
-import { hasApiActivity } from '../utils/hasApiActivityUtil';
 import CustomButton from '../components/CustomButton';
 
 interface CategoryDropdownProps {
@@ -28,9 +27,10 @@ interface CategoryDropdownProps {
   isLoading: boolean;
   error: boolean;
   helperText: string;
+  id?: string;
 }
 
-const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, isLoading, error, helperText }) => {
+const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, isLoading, error, helperText, id }) => {
   const dispatch: AppDispatch = useDispatch();
   const categories = useSelector((state: RootState) => state.user.categoriesList || []);
 
@@ -84,7 +84,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onCategorySelect, i
         <Select
           labelId="category-select-label"
           label="Category"
-          value={selectedCategory}
+          value={id ?? selectedCategory}
           onChange={handleCategoryChange}
           disabled={isLoading}
         >

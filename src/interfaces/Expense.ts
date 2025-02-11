@@ -1,7 +1,8 @@
 import { Frequency } from "./FrequencyEnum";
 
 export interface Expense {
-    id?: number;
+    id?: string;
+    tableId?: number;
     amount: number | undefined;
     categoryId: string;
     categoryName?: string;

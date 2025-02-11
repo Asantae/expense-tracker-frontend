@@ -1,13 +1,32 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Expense } from "../../interfaces/Expense";
 import { getFrequencyDisplayValue } from "../../utils/enumUtil";
+import TableDescription from "./TableDescription";
+import ExpenseTableCheckbox from "./ExpenseTableCheckbox";
 
 export const columns: ColumnDef<Expense>[] = [
     {
-        id: 'displayId',
-        header: 'ID',
-        cell: ({ row }) => `${row.index + 1}.`,
+        id: "select",
+        header: ({ table }) =>
+            ExpenseTableCheckbox({
+                checked: table.getIsAllRowsSelected(),
+                indeterminate: table.getIsSomeRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+            }),
+        cell: ({ row }) =>
+            ExpenseTableCheckbox({
+                checked: row.getIsSelected(),
+                onChange: row.getToggleSelectedHandler(),
+                // rowId: [row.original.id ?? '']
+            }),
+        enableSorting: false,
+        enableColumnFilter: false,
     },
+    // {
+    //     id: 'displayId',
+    //     header: 'ID',
+    //     cell: ({ row }) => `${row.index + 1}.`,
+    // },
     {
         accessorKey: "frequency",
         header: "Frequency",
@@ -23,6 +42,10 @@ export const columns: ColumnDef<Expense>[] = [
     {
         accessorKey: "description",
         header: "Description",
+        cell: ({ getValue }) => {
+            const text = getValue<string>();
+            return TableDescription({text});
+        },
     },
     {
         accessorKey: "amount",
@@ -30,4 +53,3 @@ export const columns: ColumnDef<Expense>[] = [
         cell: ({ getValue }) => `$${getValue<number>().toFixed(2)}`,
     },
 ];
-

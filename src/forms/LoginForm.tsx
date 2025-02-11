@@ -34,7 +34,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
+    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
       <Card sx={{ padding: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom align="center">
           Login
@@ -65,6 +65,7 @@ const LoginForm = () => {
           />
           <CustomButton
             disabled={isLoading}
+            loading={isLoading}
             type="submit"
             variant="contained"
             fullWidth
@@ -75,6 +76,7 @@ const LoginForm = () => {
           </CustomButton>
           <CustomButton
             onClick={handleGuestLogin}
+            loading={isLoading}
             disabled={isLoading}
             variant="contained"
             fullWidth

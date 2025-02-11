@@ -8,9 +8,10 @@ interface FrequencyDropdownProps {
   isLoading: boolean;
   error: boolean;
   helperText: string;
+  value?: string;
 }
 
-const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading, error, helperText }) => {
+const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect, isLoading, error, helperText, value }) => {
   const frequencyOptions = enumToValueArray(Frequency);
   const [selectedFrequency, setSelectedFrequency] = useState<Frequency>();
 
@@ -28,7 +29,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onFrequencySelect
           labelId="frequency-select-label"
           label="Frequency"
           id="frequency-select"
-          value={selectedFrequency}
+          value={value ?? selectedFrequency}
           onChange={handleFrequencyChange}
           disabled={isLoading}
         >

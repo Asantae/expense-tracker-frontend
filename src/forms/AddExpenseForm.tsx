@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Box, Container, Card, Typography } from '@mui/material';
+import { TextField, Container, Typography } from '@mui/material';
 import CategoryDropdown from './CategoryDropdown';
 import FrequencyDropdown from './FrequencyDropdown';
 import { addExpenseAction } from '../actions/addExpenseAction';
@@ -23,13 +23,14 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   const isAddingCategoryToList = useSelector((state: RootState) =>
     hasApiActivity(state, 'user/addCategoryToList/pending')
   );
-  const isLoading = isAddingCategoryToList || isAddingExpenseToList;
 
   const [amount, setAmount] = useState<number>();
   const [description, setDescription] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [selectedFrequency, setSelectedFrequency] = useState<string>('');
   const [submitted, setSubmitted] = useState(false);
+
+  const isLoading = isAddingCategoryToList || isAddingExpenseToList;
 
   const handleSubmitExpense = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +67,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   }
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
+    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
         <form onSubmit={handleSubmitExpense}>
           <TextField
             error={amountHasError()}
@@ -110,6 +111,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
           />
           <CustomButton  
             isLoading={isLoading}
+            loading={isLoading}
             type="submit" 
             variant="contained" 
             color="primary" 

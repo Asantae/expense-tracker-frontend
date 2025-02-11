@@ -1,18 +1,18 @@
-import { Box, Button, List, ListItem, Typography, Container, Modal } from '@mui/material';
+import { Box, Button, Typography, Container, Modal, IconButton, Tooltip } from '@mui/material';
 import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadExpenses } from '../actions/loadExpensesActions';
 import { useModal } from '../modals/useModal';
-import { getFrequencyDisplayValue } from '../utils/enumUtil';
 import AddExpenseForm from '../forms/AddExpenseForm';
 import CustomModal from '../modals/CustomModal';
 import ExpensesTable from '../components/expenses/ExpensesTable';
+import { Add } from '@mui/icons-material';
 
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const { isOpen, openModal, closeModal } = useModal();
+  const { openModalName, openModal, closeModal } = useModal();
 
   const expenses = useSelector((state: RootState) => state.user.expensesList || []);
   const hasExpenses = expenses.length !== 0;
@@ -32,6 +32,19 @@ const Dashboard = () => {
       <Typography variant="body1" sx={{ mb: 2 }}>
         Here is an overview of your expenses:
       </Typography>
+      <Box sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
+        <Tooltip title="Add an expense">
+          <IconButton onClick={() => openModal("add")}>
+            <Add sx={{ mt: 3, cursor: 'pointer' }}/>
+          </IconButton>    
+        </Tooltip>
+      </Box>
+
+      <br/>
 
       {hasExpenses ? (
         <ExpensesTable data={expenses}/>
@@ -40,16 +53,8 @@ const Dashboard = () => {
           You do not have any expenses to display yet.
         </Typography>
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 3 }}
-        onClick={openModal}
-      >
-        New Expense
-      </Button>
       
-      <CustomModal open={isOpen} onClose={closeModal} title="Add New Expense">
+      <CustomModal open={openModalName === "add"} onClose={closeModal} title="Add New Expense">
         <AddExpenseForm onSubmit={closeModal} onClose={closeModal} />
       </CustomModal>
     </Container>
