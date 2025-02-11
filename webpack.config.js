@@ -1,7 +1,7 @@
-const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+require('dotenv').config();
 
 module.exports = {
   mode: 'development',
@@ -14,11 +14,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     fallback: {
-      process: require.resolve('process/browser'),
-      crypto: require.resolve('crypto-browserify'),
-      stream: require.resolve('stream-browserify'),
-      os: require.resolve('os-browserify'),
-      vm: require.resolve('vm-browserify'),
+      buffer: require.resolve('buffer/'),
     },
   },
   module: {
@@ -26,9 +22,9 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   devtool: 'source-map',
   devServer: {
@@ -36,19 +32,13 @@ module.exports = {
     historyApiFallback: true,
     port: 3000,
     open: true,
-    hot: true,
-    client: {
-      logging: 'info',
-      overlay: true,
-    },
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      process: 'process/browser.js',
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_API_BASE_URL': JSON.stringify(process.env.REACT_APP_API_BASE_URL),
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new Dotenv(),
-  ]
+  ],
 };
