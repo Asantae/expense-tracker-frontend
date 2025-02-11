@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,7 +14,11 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     fallback: {
-      process: require.resolve('process/browser')
+      process: require.resolve('process/browser'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      os: require.resolve('os-browserify'),
+      vm: require.resolve('vm-browserify'),
     },
   },
   module: {
@@ -30,7 +35,12 @@ module.exports = {
     static: path.resolve(__dirname, 'dist'),
     historyApiFallback: true,
     port: 3000,
-    open: true
+    open: true,
+    hot: true,
+    client: {
+      logging: 'info',
+      overlay: true,
+    },
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -38,6 +48,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-    })
+    }),
+    new Dotenv(),
   ]
 };
