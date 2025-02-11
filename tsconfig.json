@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "es2015"],
-      "jsx": "react",
-      "moduleResolution": "node",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true
-    },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "reducers/categoryReducer.ts"],
-    "exclude": ["node_modules"]
-  }
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "es2015"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "reducers/categoryReducer.ts"],
+  "exclude": ["node_modules"]
+}
   

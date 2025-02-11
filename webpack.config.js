@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -10,7 +11,10 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    fallback: {
+      process: require.resolve('process/browser')
+    },
   },
   module: {
     rules: [
@@ -29,8 +33,11 @@ module.exports = {
     open: true
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
+    }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
     })
   ]
 };

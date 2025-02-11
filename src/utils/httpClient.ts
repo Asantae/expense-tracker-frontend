@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { getToken } from './tokenUtil';
 
-export const API_BASE_URL = 'http://localhost:5221/api';
+export const BASE_URL = process.env.API_BASE_URL;
 
 const httpClient = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: BASE_URL,
 });
 
 httpClient.interceptors.request.use((config) => {
