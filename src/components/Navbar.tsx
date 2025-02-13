@@ -11,7 +11,7 @@ import GuestRegisterForm from '../forms/GuestRegisterForm';
 const Navbar: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
-    const { isOpen, openModal, closeModal } = useModal();
+    const { openModalName, openModal, closeModal } = useModal();
 
     const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
     const isGuest = useSelector((state: RootState) => state.auth.isGuest);
@@ -33,12 +33,12 @@ const Navbar: React.FC = () => {
                             <Button
                                 color="inherit"
                                 sx={{ textTransform: 'none', mx: 1 }}
-                                onClick={openModal}
+                                onClick={() => openModal("register")}
                             >
                                 Register
                             </Button>
                             <CustomModal 
-                                open={isOpen} 
+                                open={openModalName === "register"} 
                                 onClose={closeModal} 
                                 title="Register"
                             >
