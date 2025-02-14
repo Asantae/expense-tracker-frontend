@@ -37,11 +37,11 @@ const Dashboard = () => {
         display: 'flex',
         justifyContent: 'flex-end'
       }}>
-        <Tooltip title="Add an expense">
           <IconButton onClick={() => openModal("add")}>
+        <Tooltip title="Add an expense">
             <Add sx={{ mt: 3, cursor: 'pointer' }}/>
-          </IconButton>    
         </Tooltip>
+          </IconButton>    
       </Box>
 
       <br/>
@@ -54,7 +54,7 @@ const Dashboard = () => {
         </Typography>
       )}
       
-      <CustomModal open={openModalName === "add"} onClose={closeModal} title="Add New Expense">
+      <CustomModal open={openModalName === "add"} onClose={closeModal} title="Add Expense">
         <AddExpenseForm onSubmit={closeModal} onClose={closeModal} />
       </CustomModal>
     </Container>

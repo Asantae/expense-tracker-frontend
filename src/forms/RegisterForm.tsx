@@ -41,7 +41,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
+    <Container maxWidth="xs">
       <Card sx={{ padding: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom align="center">
             Register
@@ -90,7 +90,7 @@ const RegisterForm = () => {
             fullWidth
             value={passwordReEntry}
             onChange={(e) => setPasswordReEntry(e.target.value)}
-            sx={{ mb: 2, mt: 2 }}     
+            sx={{ mb: 2 }}     
             helperText={submitted && passwordReEntry && !checkPasswordMatch(password, passwordReEntry) ? "Passwords must match." : ""}     
           />}
           <CustomButton

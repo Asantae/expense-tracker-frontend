@@ -1,6 +1,6 @@
 import React from 'react';
 import RegisterForm from '../forms/RegisterForm';
-import { Box, Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 
 const RegisterPage: React.FC = () => {
   return (
@@ -14,9 +14,7 @@ const RegisterPage: React.FC = () => {
         mt: 8
       }}
     >
-      <Box>
-        <RegisterForm />
-      </Box>
+      <RegisterForm />
     </Container>
   );
 };

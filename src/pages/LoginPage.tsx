@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from '../forms/LoginForm';
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 
 const LoginPage: React.FC = () => {
   return (

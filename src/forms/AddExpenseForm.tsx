@@ -67,7 +67,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   }
 
   return (
-    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
+    <Container maxWidth="xs">
         <form onSubmit={handleSubmitExpense}>
           <TextField
             error={amountHasError()}

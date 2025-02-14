@@ -80,7 +80,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({ expenseId, onClose })
   };
 
   return (
-    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
+    <Container maxWidth="xs">
       <form onSubmit={handleSubmitExpense}>
         <TextField
           error={submitted && (amount === 0 || amount <= 0)}

@@ -32,7 +32,7 @@ const DeleteExpenseForm: React.FC<DeleteExpenseFormProps> = ({ expenses, onClose
 
     return (
         <Container maxWidth="xs">
-            <Typography textAlign="center" mb={2} sx={{ mb: 2 }}>
+            <Typography textAlign="center" sx={{ mb: 2 }}>
                 You have selected <Typography component="span" color={hasMultipleSelected ? "red":""}>{hasMultipleSelected ? expenses.length : "an"}</Typography> expenses to delete. 
                     <br/>
                 Do you wish to proceed?

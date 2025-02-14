@@ -114,7 +114,7 @@ const ExpensesTable: React.FC<ExpensesTableProps> = ({ data }) => {
       {isAnyRowChecked && (
         <Tooltip title="Delete expense(s)">
           <IconButton loading={isLoading} disabled={isLoading} onClick={() => openModal("delete")}>
-            <Delete sx={{ cursor: 'pointer' }}/>
+            <Delete sx={{ margin: 2, cursor: 'pointer' }}/>
           </IconButton>    
         </Tooltip>)}
       <Box sx={{ overflowX: "auto" }}>

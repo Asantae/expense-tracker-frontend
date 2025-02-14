@@ -34,7 +34,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ px: 0, mx: 2 }}>
+    <Container maxWidth="xs">
       <Card sx={{ padding: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom align="center">
           Login
