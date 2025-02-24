@@ -95,6 +95,7 @@ const RegisterForm = () => {
           />}
           <CustomButton
             disabled={isLoading}
+            loading={isLoading}
             type="submit"
             variant="contained"
             fullWidth
@@ -105,6 +106,7 @@ const RegisterForm = () => {
           </CustomButton>
           <CustomButton
             onClick={handleGuestLogin}
+            loading={isLoading}
             disabled={isLoading}
             variant="contained"
             fullWidth
