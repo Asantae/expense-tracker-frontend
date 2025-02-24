@@ -6,13 +6,6 @@ const RegisterPage: React.FC = () => {
   return (
     <Container 
       maxWidth="xs" 
-      sx={{
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        mt: 8
-      }}
     >
       <RegisterForm />
     </Container>

@@ -26,8 +26,15 @@ const App: React.FC = () => {
         <Box
           component="main"
           sx={{
+            height: "100%",
             marginBottom: 5,
             flex: 1,
+            ...(!shouldShowNavbar && {
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            })
           }}
         >
           <AppRoutes />

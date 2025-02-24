@@ -25,6 +25,10 @@ const Footer: React.FC = () => {
           </Grid2>
           <Grid2>
             <Typography variant="body2">
+              <Link href="https://asantaems.com" target="_blank" color="inherit" underline="hover">
+                Asantaems.com
+              </Link>{' '}
+              |{' '}
               <Link href="/terms" color="inherit" underline="hover">
                 Terms of Service
               </Link>{' '}

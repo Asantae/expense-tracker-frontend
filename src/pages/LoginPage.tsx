@@ -6,13 +6,6 @@ const LoginPage: React.FC = () => {
   return (
     <Container 
       maxWidth="xs" 
-      sx={{
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        mt: 8
-      }}
     >
       <LoginForm />
     </Container>
