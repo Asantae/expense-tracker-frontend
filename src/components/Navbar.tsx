@@ -7,6 +7,7 @@ import { logout } from '../actions/logoutAction';
 import CustomModal from '../modals/CustomModal';
 import { useModal } from '../modals/useModal';
 import GuestRegisterForm from '../forms/GuestRegisterForm';
+import LoginForm from '../forms/LoginForm';
 
 const Navbar: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -27,8 +28,25 @@ const Navbar: React.FC = () => {
                     Expense Tracker
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {
-                        isGuest && isLoggedIn &&
+                    {!isLoggedIn && isGuest &&
+                        <Box>
+                            <Button
+                                color="inherit"
+                                sx={{ textTransform: 'none', mx: 1 }}
+                                onClick={() => openModal("login")}
+                            >
+                                Login
+                            </Button>
+                            <CustomModal 
+                                open={openModalName === "login"} 
+                                onClose={closeModal} 
+                                title="Login"
+                            >
+                                <LoginForm />
+                            </CustomModal>
+                        </Box>
+                    }
+                    {isGuest &&
                         <Box>                  
                             <Button
                                 color="inherit"
@@ -46,7 +64,7 @@ const Navbar: React.FC = () => {
                             </CustomModal>
                         </Box>     
                     }
-                    {isLoggedIn ? (
+                    {isLoggedIn &&
                         <Button
                             color="inherit"
                             sx={{ textTransform: 'none', mx: 1 }}
@@ -54,16 +72,7 @@ const Navbar: React.FC = () => {
                         >
                             Logout
                         </Button>
-                    ) : (
-                        <Button
-                            component={Link}
-                            to="/login"
-                            color="inherit"
-                            sx={{ textTransform: 'none', mx: 1 }}
-                        >
-                            Login
-                        </Button>
-                    )}
+                    }
                 </Box>
             </Toolbar>
         </AppBar>

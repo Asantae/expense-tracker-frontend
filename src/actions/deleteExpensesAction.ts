@@ -8,7 +8,6 @@ import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
 export const deleteExpensesAction = (expensesToDelete: string[]): ThunkAction<Promise<string | null>, RootState, unknown, Action<string>> => async (dispatch) => {
   try {
     dispatch({ type: 'user/deleteExpenseInList/pending'});
-    console.log(expensesToDelete);
     
     const response = await deleteExpenses(expensesToDelete);
 

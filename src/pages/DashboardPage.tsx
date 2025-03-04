@@ -38,9 +38,9 @@ const Dashboard = () => {
         justifyContent: 'flex-end'
       }}>
           <IconButton onClick={() => openModal("add")}>
-        <Tooltip title="Add an expense">
-            <Add sx={{ mt: 3, cursor: 'pointer' }}/>
-        </Tooltip>
+            <Tooltip title="Add an expense">
+              <Add sx={{ cursor: 'pointer' }}/>
+            </Tooltip>
           </IconButton>    
       </Box>
 
@@ -50,7 +50,7 @@ const Dashboard = () => {
         <ExpensesTable data={expenses}/>
       ):(
         <Typography variant="body2" color="textSecondary">
-          You do not have any expenses to display yet.
+          You do not have any expenses to display yet. To add an expense click the plus button.
         </Typography>
       )}
       

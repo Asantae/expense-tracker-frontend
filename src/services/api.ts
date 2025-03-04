@@ -255,7 +255,8 @@ export const addExpense = async (expense: Expense) => {
             amount: expense.amount,
             description: expense.description,
             categoryId: expense.categoryId,
-            frequency: Frequency[expense.frequency ?? Frequency.OneTime]
+            frequency: Frequency[expense.frequency ?? Frequency.OneTime],
+            date: expense.date
         },
         {
             params: {
@@ -287,7 +288,8 @@ export const editExpense = async (editedExpense: Expense) => {
             amount: editedExpense.amount,
             description: editedExpense.description,
             categoryId: editedExpense.categoryId,
-            frequency: Frequency[editedExpense.frequency ?? Frequency.OneTime]
+            frequency: Frequency[editedExpense.frequency ?? Frequency.OneTime],
+            date: editedExpense.date,
         },
         {
             params: {

@@ -9,6 +9,9 @@ import { AppDispatch, RootState } from '../store/store';
 import { hasApiActivity } from '../utils/hasApiActivityUtil';
 import CustomButton from '../components/CustomButton';
 import { editExpenseAction } from '../actions/editExpenseAction';
+import { Dayjs } from 'dayjs';
+import { DateField } from '@mui/x-date-pickers';
+import { formattedDate } from '../utils/dateUtil';
 
 interface EditExpenseFormProps {
   expenseId: string;
@@ -34,20 +37,24 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({ expenseId, onClose })
   const [amount, setAmount] = useState<number>(expenseToEdit?.amount ?? 0);
   const [description, setDescription] = useState<string>(expenseToEdit?.description ?? '');
   const [categoryId, setCategoryId] = useState<string>(expenseToEdit?.categoryId ?? '');
-  const [selectedFrequency, setSelectedFrequency] = useState<string>(expenseToEdit?.frequency ?? '');
+  const [frequency, setFrequency] = useState<string>(expenseToEdit?.frequency ?? '');
+  const [date, setDate] = useState<Dayjs | null>();
   const [submitted, setSubmitted] = useState(false);
+
+  const hasOneTimeFrequency = frequency === Frequency.OneTime;
+  const hasDateError = hasOneTimeFrequency && !date;
 
   useEffect(() => {
     if (expenseToEdit) {
       setAmount(expenseToEdit.amount ?? 0);
       setDescription(expenseToEdit.description ?? '');
       setCategoryId(expenseToEdit.categoryId ?? '');
-      setSelectedFrequency(expenseToEdit.frequency ?? '');
+      setFrequency(expenseToEdit.frequency ?? '');
     }
   }, [expenseToEdit]);
 
   const formHasError = () => {
-    return !amount || !selectedFrequency || !categoryId || amount <= 0;
+    return !amount || !frequency || !categoryId || amount <= 0 || hasDateError;
   };
 
   const getAmountHelperText = () => {
@@ -70,7 +77,8 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({ expenseId, onClose })
       amount,
       description,
       categoryId,
-      frequency: selectedFrequency as Frequency,
+      frequency: frequency as Frequency,
+      date: date ? formattedDate(date) : ""
     };
 
     const result = await dispatch(editExpenseAction(updatedExpense));
@@ -111,14 +119,27 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({ expenseId, onClose })
           helperText={submitted && !categoryId ? 'This is a required field.' : ''}
         />
         <FrequencyDropdown
-          value={selectedFrequency}
-          error={submitted && !selectedFrequency}
-          onFrequencySelect={setSelectedFrequency}
+          value={frequency}
+          error={submitted && !frequency}
+          onFrequencySelect={setFrequency}
           isLoading={isLoading}
           helperText={
-            submitted && !selectedFrequency ? 'This is a required field.' : ''
+            submitted && !frequency ? 'This is a required field.' : ''
           }
         />
+        {hasOneTimeFrequency && 
+          <DateField disableFuture 
+            value={date}
+            onChange={(newDate) => {setDate(newDate)}}
+            sx={{ width: "100%", mb: 2 }}
+            slotProps={{
+              textField: {
+                error: submitted && hasOneTimeFrequency && !date,
+                helperText: submitted && hasOneTimeFrequency && !date ? "When Frequency is One-Time, this is a required field." : ""
+              }
+            }}
+          />
+        }
         <CustomButton
           isLoading={isLoading}
           loading={isLoading}

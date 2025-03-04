@@ -20,7 +20,6 @@ const DeleteExpenseForm: React.FC<DeleteExpenseFormProps> = ({ expenses, onClose
     );
 
     const isLoading = isDeletingExpense;
-    const hasMultipleSelected = expenses.length > 1;
 
     const handleDeleteExpenses = async (expenses: string[]) => {
         const result = await dispatch(deleteExpensesAction(expenses));
@@ -33,10 +32,10 @@ const DeleteExpenseForm: React.FC<DeleteExpenseFormProps> = ({ expenses, onClose
     return (
         <Container maxWidth="xs">
             <Typography textAlign="center" sx={{ mb: 2 }}>
-                You have selected <Typography component="span" color={hasMultipleSelected ? "red":""}>{hasMultipleSelected ? expenses.length : "an"}</Typography> expenses to delete. 
-                    <br/>
+                You have selected <Typography component="span" color={"error"}>{expenses.length}</Typography> expense(s) to delete. 
+                <br/>
                 Do you wish to proceed?
-                    <br/>
+                <br/>
                 <Typography component="span" variant="subtitle2" color="grey">Warning: expenses will not be recoverable once deleted</Typography>
             </Typography>
             <Box display="flex" justifyContent="center" gap={2} overflow="none">

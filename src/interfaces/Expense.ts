@@ -8,4 +8,5 @@ export interface Expense {
     categoryName?: string;
     frequency: Frequency | undefined;
     description?: string;
+    date?: string;
 }

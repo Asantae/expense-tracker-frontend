@@ -56,8 +56,6 @@ const ExpensesTable: React.FC<ExpensesTableProps> = ({ data }) => {
   const deletedExpenseSuccess = useSelector((state: RootState) =>
     hasApiActivity(state, 'user/deleteExpenseInList/fulfilled')
   );
-
-  console.log("test", deletingExpenses);
   
   const isLoading = deletingExpenses;
 

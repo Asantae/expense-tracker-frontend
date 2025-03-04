@@ -9,9 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { hasApiActivity } from '../utils/hasApiActivityUtil';
 import CustomButton from '../components/CustomButton';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { Dayjs } from 'dayjs';
+import { formattedDate } from '../utils/dateUtil';
 
 interface AddExpenseFormProps {
-  onSubmit: (data: { amount: number; description: string; categoryId: string; selectedFrequency: string }) => void;
+  onSubmit: (data: { amount: number; description: string; categoryId: string; frequency: string, date: string }) => void;
   onClose: () => void;
 }
 
@@ -27,10 +30,13 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   const [amount, setAmount] = useState<number>();
   const [description, setDescription] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
-  const [selectedFrequency, setSelectedFrequency] = useState<string>('');
+  const [frequency, setFrequency] = useState<string>('');
+  const [date, setDate] = useState<Dayjs | null>();
   const [submitted, setSubmitted] = useState(false);
 
   const isLoading = isAddingCategoryToList || isAddingExpenseToList;
+
+  const hasOneTimeFrequency = frequency === Frequency.OneTime;
 
   const handleSubmitExpense = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +48,8 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
       amount, 
       description,
       categoryId,
-      frequency: selectedFrequency as Frequency
+      frequency: frequency as Frequency,
+      date: date ? formattedDate(date) : ""
     };
     
     const result = await dispatch(addExpenseAction(newExpense));
@@ -63,7 +70,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   };
 
   const formHasError = () => {
-    return !amount || !selectedFrequency || !categoryId || amountHasError();
+    return !amount || !frequency || !categoryId || amountHasError();
   }
 
   return (
@@ -104,11 +111,24 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
             helperText={submitted && !categoryId ? "This is a required field." : ""}
           />
           <FrequencyDropdown 
-            error={submitted && !selectedFrequency}
-            onFrequencySelect={setSelectedFrequency} 
+            error={submitted && !frequency}
+            onFrequencySelect={setFrequency} 
             isLoading={isLoading} 
-            helperText={submitted && !selectedFrequency ? "This is a required field." : ""}
+            helperText={submitted && !frequency ? "This is a required field." : ""}
           />
+          {hasOneTimeFrequency && 
+            <DateField disableFuture 
+              value={date}
+              onChange={(newDate) => setDate(newDate)}
+              sx={{ width: "100%", mb: 2 }}
+              slotProps={{
+                textField: {
+                  error: submitted && hasOneTimeFrequency && !date,
+                  helperText: submitted && hasOneTimeFrequency && !date ? "When Frequency is One-Time, this is a required field." : ""
+                }
+              }}
+            />
+          }
           <CustomButton  
             isLoading={isLoading}
             loading={isLoading}

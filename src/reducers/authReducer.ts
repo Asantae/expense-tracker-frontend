@@ -30,7 +30,7 @@ const authReducer = (state = initialState, action: any) => {
       
       return { 
         ...state, 
-        isLoggedIn: true,
+        isLoggedIn: false,
         isGuest: true
       };
     case 'LOGOUT_SUCCESS':

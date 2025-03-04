@@ -29,8 +29,6 @@ export const logout = (navigate: any): ThunkAction<Promise<void>, RootState, unk
 
     showSuccessToast('Logout successful!');
   } catch (error) {
-    console.log(error);
-    
     if(axios.isAxiosError(error) && error.response){
       showErrorToast(`${error.response?.data}`);
     } else {
